@@ -14,19 +14,50 @@
 		F0FFB17527855EA60014A311 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = F0FFB16027855EA50014A311 /* Actions.sks */; };
 		F0FFB17627855EA60014A311 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = F0FFB16127855EA50014A311 /* GameScene.sks */; };
 		F0FFB17727855EA60014A311 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FFB16227855EA50014A311 /* GameScene.swift */; };
-		F0FFB17827855EA60014A311 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F0FFB16327855EA60014A311 /* Assets.xcassets */; };
+		F0FFB18427855FA20014A311 /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = F0FFB18327855FA20014A311 /* OpenCVWrapper.mm */; };
+		F0FFB18627855FE70014A311 /* LevelGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FFB18527855FE70014A311 /* LevelGenerator.swift */; };
+		F0FFB18827855FFE0014A311 /* ImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FFB18727855FFE0014A311 /* ImageProcessor.swift */; };
+		F0FFB1902785607D0014A311 /* Monster.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FFB18C2785607D0014A311 /* Monster.swift */; };
+		F0FFB1912785607D0014A311 /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FFB18D2785607D0014A311 /* GameObject.swift */; };
+		F0FFB1922785607D0014A311 /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FFB18E2785607D0014A311 /* Platform.swift */; };
+		F0FFB1932785607D0014A311 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FFB18F2785607D0014A311 /* Player.swift */; };
+		F0FFB1A2278565630014A311 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0FFB1A1278565630014A311 /* AssetsLibrary.framework */; };
+		F0FFB1A42785656B0014A311 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0FFB1A32785656B0014A311 /* CoreGraphics.framework */; };
+		F0FFB1A6278565720014A311 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0FFB1A5278565720014A311 /* CoreMedia.framework */; };
+		F0FFB1A82785657B0014A311 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0FFB1A72785657B0014A311 /* CoreFoundation.framework */; };
+		F0FFB1AA278565840014A311 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0FFB1A9278565840014A311 /* Accelerate.framework */; };
+		F0FFB1AC278565B50014A311 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0FFB1AB278565B50014A311 /* opencv2.framework */; };
+		F0FFB1AE278567050014A311 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F0FFB1AD278567050014A311 /* Assets.xcassets */; };
+		F0FFB1D4278A584D0014A311 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0FFB1D3278A584D0014A311 /* CoreMotion.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		F0FFB16027855EA50014A311 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		F0FFB16127855EA50014A311 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		F0FFB16227855EA50014A311 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
-		F0FFB16327855EA60014A311 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F0FFB16827855EA60014A311 /* PJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0FFB16B27855EA60014A311 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F0FFB16D27855EA60014A311 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		F0FFB17027855EA60014A311 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F0FFB17327855EA60014A311 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F0FFB17F27855FA10014A311 /* PJ iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PJ iOS-Bridging-Header.h"; sourceTree = "<group>"; };
+		F0FFB18027855FA20014A311 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		F0FFB18227855FA20014A311 /* OpenCVWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
+		F0FFB18327855FA20014A311 /* OpenCVWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
+		F0FFB18527855FE70014A311 /* LevelGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelGenerator.swift; sourceTree = "<group>"; };
+		F0FFB18727855FFE0014A311 /* ImageProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageProcessor.swift; sourceTree = "<group>"; };
+		F0FFB18C2785607D0014A311 /* Monster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Monster.swift; sourceTree = "<group>"; };
+		F0FFB18D2785607D0014A311 /* GameObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
+		F0FFB18E2785607D0014A311 /* Platform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
+		F0FFB18F2785607D0014A311 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		F0FFB1A1278565630014A311 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.0.sdk/System/Library/Frameworks/AssetsLibrary.framework; sourceTree = DEVELOPER_DIR; };
+		F0FFB1A32785656B0014A311 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.0.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		F0FFB1A5278565720014A311 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.0.sdk/System/Library/Frameworks/CoreMedia.framework; sourceTree = DEVELOPER_DIR; };
+		F0FFB1A72785657B0014A311 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.0.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		F0FFB1A9278565840014A311 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.0.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
+		F0FFB1AB278565B50014A311 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../ThirdPartyFrameworks/opencv2.framework; sourceTree = "<group>"; };
+		F0FFB1AD278567050014A311 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F0FFB1D3278A584D0014A311 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +65,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0FFB1D4278A584D0014A311 /* CoreMotion.framework in Frameworks */,
+				F0FFB1AC278565B50014A311 /* opencv2.framework in Frameworks */,
+				F0FFB1AA278565840014A311 /* Accelerate.framework in Frameworks */,
+				F0FFB1A82785657B0014A311 /* CoreFoundation.framework in Frameworks */,
+				F0FFB1A6278565720014A311 /* CoreMedia.framework in Frameworks */,
+				F0FFB1A42785656B0014A311 /* CoreGraphics.framework in Frameworks */,
+				F0FFB1A2278565630014A311 /* AssetsLibrary.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +84,7 @@
 				F0FFB15F27855EA50014A311 /* PJ Shared */,
 				F0FFB16A27855EA60014A311 /* PJ iOS */,
 				F0FFB16927855EA60014A311 /* Products */,
+				F0FFB19D2785653B0014A311 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -55,7 +94,7 @@
 				F0FFB16027855EA50014A311 /* Actions.sks */,
 				F0FFB16127855EA50014A311 /* GameScene.sks */,
 				F0FFB16227855EA50014A311 /* GameScene.swift */,
-				F0FFB16327855EA60014A311 /* Assets.xcassets */,
+				F0FFB1AD278567050014A311 /* Assets.xcassets */,
 			);
 			path = "PJ Shared";
 			sourceTree = "<group>";
@@ -71,12 +110,52 @@
 		F0FFB16A27855EA60014A311 /* PJ iOS */ = {
 			isa = PBXGroup;
 			children = (
+				F0FFB18727855FFE0014A311 /* ImageProcessor.swift */,
+				F0FFB18527855FE70014A311 /* LevelGenerator.swift */,
+				F0FFB18B2785607D0014A311 /* GameObjects */,
+				F0FFB17E27855F5B0014A311 /* OpenCV */,
 				F0FFB16B27855EA60014A311 /* AppDelegate.swift */,
 				F0FFB16D27855EA60014A311 /* GameViewController.swift */,
 				F0FFB16F27855EA60014A311 /* Main.storyboard */,
 				F0FFB17227855EA60014A311 /* LaunchScreen.storyboard */,
 			);
 			path = "PJ iOS";
+			sourceTree = "<group>";
+		};
+		F0FFB17E27855F5B0014A311 /* OpenCV */ = {
+			isa = PBXGroup;
+			children = (
+				F0FFB18227855FA20014A311 /* OpenCVWrapper.h */,
+				F0FFB18327855FA20014A311 /* OpenCVWrapper.mm */,
+				F0FFB18027855FA20014A311 /* PrefixHeader.pch */,
+				F0FFB17F27855FA10014A311 /* PJ iOS-Bridging-Header.h */,
+			);
+			path = OpenCV;
+			sourceTree = "<group>";
+		};
+		F0FFB18B2785607D0014A311 /* GameObjects */ = {
+			isa = PBXGroup;
+			children = (
+				F0FFB18C2785607D0014A311 /* Monster.swift */,
+				F0FFB18D2785607D0014A311 /* GameObject.swift */,
+				F0FFB18E2785607D0014A311 /* Platform.swift */,
+				F0FFB18F2785607D0014A311 /* Player.swift */,
+			);
+			path = GameObjects;
+			sourceTree = "<group>";
+		};
+		F0FFB19D2785653B0014A311 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F0FFB1D3278A584D0014A311 /* CoreMotion.framework */,
+				F0FFB1AB278565B50014A311 /* opencv2.framework */,
+				F0FFB1A9278565840014A311 /* Accelerate.framework */,
+				F0FFB1A72785657B0014A311 /* CoreFoundation.framework */,
+				F0FFB1A5278565720014A311 /* CoreMedia.framework */,
+				F0FFB1A32785656B0014A311 /* CoreGraphics.framework */,
+				F0FFB1A1278565630014A311 /* AssetsLibrary.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -111,6 +190,7 @@
 				TargetAttributes = {
 					F0FFB16727855EA60014A311 = {
 						CreatedOnToolsVersion = 13.1;
+						LastSwiftMigration = 1310;
 					};
 				};
 			};
@@ -141,7 +221,7 @@
 				F0FFB17127855EA60014A311 /* Main.storyboard in Resources */,
 				F0FFB17527855EA60014A311 /* Actions.sks in Resources */,
 				F0FFB17427855EA60014A311 /* LaunchScreen.storyboard in Resources */,
-				F0FFB17827855EA60014A311 /* Assets.xcassets in Resources */,
+				F0FFB1AE278567050014A311 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,9 +232,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0FFB1922785607D0014A311 /* Platform.swift in Sources */,
+				F0FFB18427855FA20014A311 /* OpenCVWrapper.mm in Sources */,
 				F0FFB17727855EA60014A311 /* GameScene.swift in Sources */,
+				F0FFB18627855FE70014A311 /* LevelGenerator.swift in Sources */,
 				F0FFB16E27855EA60014A311 /* GameViewController.swift in Sources */,
+				F0FFB1912785607D0014A311 /* GameObject.swift in Sources */,
+				F0FFB18827855FFE0014A311 /* ImageProcessor.swift in Sources */,
 				F0FFB16C27855EA60014A311 /* AppDelegate.swift in Sources */,
+				F0FFB1932785607D0014A311 /* Player.swift in Sources */,
+				F0FFB1902785607D0014A311 /* Monster.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,9 +383,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R8GHK8844T;
+				EXCLUDED_ARCHS = "";
+				FRAMEWORK_SEARCH_PATHS = "/Users/comfy/Documents/Projects/ThirdPartyFrameworks/**";
+				GCC_PREFIX_HEADER = "/Users/comfy/Documents/Projects/PJ/PJ iOS/OpenCV/PrefixHeader.pch";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -316,6 +407,8 @@
 				PRODUCT_NAME = PJ;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "PJ iOS/OpenCV/PJ iOS-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -326,9 +419,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R8GHK8844T;
+				EXCLUDED_ARCHS = "";
+				FRAMEWORK_SEARCH_PATHS = "/Users/comfy/Documents/Projects/ThirdPartyFrameworks/**";
+				GCC_PREFIX_HEADER = "/Users/comfy/Documents/Projects/PJ/PJ iOS/OpenCV/PrefixHeader.pch";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -346,6 +443,7 @@
 				PRODUCT_NAME = PJ;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "PJ iOS/OpenCV/PJ iOS-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
