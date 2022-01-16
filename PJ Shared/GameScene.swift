@@ -13,25 +13,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let JUMP_HEIGHT_LEEWAY = 2
     var player : Player?
     var motion : CMMotionManager!
+    let lg = LevelGenerator()
+    
     override func didMove(to view: SKView) {
-        
+        view.showsPhysics = false
         self.physicsWorld.gravity = CGVector(dx:0,dy:-8)
         self.motion = CMMotionManager()
         self.motion.startDeviceMotionUpdates()
         physicsWorld.contactDelegate = self
         self.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        
-
-        let lg = LevelGenerator()
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { // Change `2.0` to the desired number of seconds.
-            self.player = lg.addPlayerToScene(self)
+            self.player = self.lg.addPlayerToScene(self)
         }
         
         lg.addGroundToScene(self)
         lg.addImageToScene(self, levelImageName: "level_plainSelfie")
         lg.addEdgePlatformsToScene(self)
-        
+        lg.addExtraPlatformsToScene(self)
     }
     
     
@@ -74,6 +73,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         player.jump()
                     }
                 }
+            }
+            
+            if player.node.position.y >= UIScreen.main.bounds.height {
+                lg.resetScene(self)
+                
+                lg.addGroundToScene(self)
+                lg.addImageToScene(self, levelImageName: "nah")
+                self.player = lg.addPlayerToScene(self)
+                lg.addEdgePlatformsToScene(self)
+                lg.addExtraPlatformsToScene(self)
             }
            
             //print("Hero is currently at x:\(player.node.position.x) y:\(player.node.position.y)")

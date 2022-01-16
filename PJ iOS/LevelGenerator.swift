@@ -13,9 +13,8 @@ class LevelGenerator {
     
     func addImageToScene(_ scene: GameScene, levelImageName : String) {
         print("addImageToScene: Loading level image")
-        
-        self.levelImage = UIImage(named: levelImageName)
-        
+        let imageExtractor = ImageExtractor()
+        self.levelImage = imageExtractor.getRandomPhoto()
         self.resizeImageToScreenHeight(self.levelImage!)
         self.randomImageCrop()
         
@@ -86,10 +85,14 @@ class LevelGenerator {
     
     func addPlayerToScene(_ scene : GameScene) -> Player {
         print("addPlayerToScene: Rendering player...")
-        let pos = CGPoint(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height)
+        let pos = CGPoint(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.2)
         let player = Player(pos, Player.SPRITE_SIZE)
         player.draw(scene)
         return player
+    }
+    
+    func resetScene(_ scene : GameScene) {
+        scene.removeAllChildren()
     }
     
     func resizeImageToScreenHeight(_ image : UIImage)  {
@@ -123,4 +126,6 @@ class LevelGenerator {
         
         self.levelImage = UIImage(cgImage: croppedCG!)
     }
+    
+    
 }

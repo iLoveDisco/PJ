@@ -34,9 +34,9 @@ class Player : GameObject {
         node.physicsBody?.angularDamping = 0
         node.physicsBody?.linearDamping = 3
         
-        node.physicsBody?.contactTestBitMask = 0b0000
-        node.physicsBody?.categoryBitMask = 0b0100
-        node.physicsBody?.collisionBitMask = 0b1000
+        node.physicsBody?.contactTestBitMask = 0b00000000
+        node.physicsBody?.categoryBitMask =    0b00000000
+        node.physicsBody?.collisionBitMask =   0b00000000
         
         self.canJump = true
     }

@@ -29,6 +29,7 @@
 		F0FFB1AC278565B50014A311 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0FFB1AB278565B50014A311 /* opencv2.framework */; };
 		F0FFB1AE278567050014A311 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F0FFB1AD278567050014A311 /* Assets.xcassets */; };
 		F0FFB1D4278A584D0014A311 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0FFB1D3278A584D0014A311 /* CoreMotion.framework */; };
+		F0FFB1D9279261290014A311 /* ImageExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FFB1D8279261290014A311 /* ImageExtractor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		F0FFB1AB278565B50014A311 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../ThirdPartyFrameworks/opencv2.framework; sourceTree = "<group>"; };
 		F0FFB1AD278567050014A311 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F0FFB1D3278A584D0014A311 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
+		F0FFB1D8279261290014A311 /* ImageExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				F0FFB16D27855EA60014A311 /* GameViewController.swift */,
 				F0FFB16F27855EA60014A311 /* Main.storyboard */,
 				F0FFB17227855EA60014A311 /* LaunchScreen.storyboard */,
+				F0FFB1D8279261290014A311 /* ImageExtractor.swift */,
 			);
 			path = "PJ iOS";
 			sourceTree = "<group>";
@@ -236,6 +239,7 @@
 				F0FFB18427855FA20014A311 /* OpenCVWrapper.mm in Sources */,
 				F0FFB17727855EA60014A311 /* GameScene.swift in Sources */,
 				F0FFB18627855FE70014A311 /* LevelGenerator.swift in Sources */,
+				F0FFB1D9279261290014A311 /* ImageExtractor.swift in Sources */,
 				F0FFB16E27855EA60014A311 /* GameViewController.swift in Sources */,
 				F0FFB1912785607D0014A311 /* GameObject.swift in Sources */,
 				F0FFB18827855FFE0014A311 /* ImageProcessor.swift in Sources */,
@@ -391,6 +395,7 @@
 				FRAMEWORK_SEARCH_PATHS = "/Users/comfy/Documents/Projects/ThirdPartyFrameworks/**";
 				GCC_PREFIX_HEADER = "/Users/comfy/Documents/Projects/PJ/PJ iOS/OpenCV/PrefixHeader.pch";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to the photo library.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -427,6 +432,9 @@
 				FRAMEWORK_SEARCH_PATHS = "/Users/comfy/Documents/Projects/ThirdPartyFrameworks/**";
 				GCC_PREFIX_HEADER = "/Users/comfy/Documents/Projects/PJ/PJ iOS/OpenCV/PrefixHeader.pch";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "";
+				"INFOPLIST_FILE[sdk=*]" = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to the photo library.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
