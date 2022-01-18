@@ -17,6 +17,7 @@ class Player : GameObject {
     static let BODY_SIZE = SPRITE_SIZE
     static let DRIFT : Double = 20
     static let JUMP_POWER = 15
+    static let DEFAULT_POSITION = CGPoint(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.2)
     
     override init(_ pos: CGPoint, _ size: CGSize) {
         super.init(pos, size)
@@ -69,5 +70,17 @@ class Player : GameObject {
     
     func isFalling() -> Bool {
         return (self.getNode().physicsBody?.velocity.dy)! < 0
+    }
+    
+    func isAboveScreen() -> Bool {
+        return self.node.position.y >= UIScreen.main.bounds.height
+    }
+    
+    func isTouching(_ node : SKNode) -> Bool{
+        return self.node.intersects(node)
+    }
+    
+    func resetPosition() {
+        self.node.position = Player.DEFAULT_POSITION
     }
 }

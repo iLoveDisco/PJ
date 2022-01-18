@@ -15,6 +15,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var motion : CMMotionManager!
     let lg = LevelGenerator()
     
+    let ADD_PLAYER_AFTER_DELAY = 2.0
+    
+    
     override func didMove(to view: SKView) {
         view.showsPhysics = false
         self.physicsWorld.gravity = CGVector(dx:0,dy:-8)
@@ -23,22 +26,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         self.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { // Change `2.0` to the desired number of seconds.
-            self.player = self.lg.addPlayerToScene(self)
-        }
-        
-        lg.addGroundToScene(self)
-        lg.addImageToScene(self, levelImageName: "level_plainSelfie")
-        lg.addEdgePlatformsToScene(self)
-        lg.addExtraPlatformsToScene(self)
+        self.resetScene()
     }
     
-    
-    
     func didBegin(_ contact: SKPhysicsContact) {
-        guard let nodeA = contact.bodyA.node else { return }
-        guard let nodeB = contact.bodyB.node else { return }
-        
         if let player = self.player {
             player.jump()
         }
@@ -46,18 +37,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         if let player = self.player {
+            self.handlePlayerJumps()
+            self.handleDeviceControls()
+            self.handleGameFinish()
             
-            if player.isFalling(){
-                player.enableJumping()
-            } else { // player is rising
-                player.disableJumping()
-            }
-            
-            
-            if let data = motion.deviceMotion {
-                let y = data.attitude.roll
-                player.node.physicsBody?.applyForce(CGVector(dx: y * Player.DRIFT, dy:0))
-            }
             
             if player.node.position.x <= 0 {
                 player.node.position.x = UIScreen.main.bounds.width
@@ -67,25 +50,54 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 player.node.position.x = 0
             }
             
+        }
+    }
+    
+    private func handlePlayerJumps() {
+        if let player = self.player {
+            if player.isFalling(){
+                player.enableJumping()
+            } else { // player is rising
+                player.disableJumping()
+            }
+            
             for node in self.children {
                 if node.name == "PLATFORM" {
-                    if player.node.intersects(node) {
+                    if player.isTouching(node) {
                         player.jump()
                     }
                 }
             }
-            
-            if player.node.position.y >= UIScreen.main.bounds.height {
-                lg.resetScene(self)
-                
-                lg.addGroundToScene(self)
-                lg.addImageToScene(self, levelImageName: "nah")
-                self.player = lg.addPlayerToScene(self)
-                lg.addEdgePlatformsToScene(self)
-                lg.addExtraPlatformsToScene(self)
-            }
-           
-            //print("Hero is currently at x:\(player.node.position.x) y:\(player.node.position.y)")
         }
+    }
+    
+    private func handleDeviceControls() {
+        if let player = self.player {
+            if let data = motion.deviceMotion {
+                let y = data.attitude.roll
+                player.node.physicsBody?.applyForce(CGVector(dx: y * Player.DRIFT, dy:0))
+            }
+        }
+    }
+    
+    private func handleGameFinish() {
+        if let player = self.player {
+            if player.isAboveScreen() {
+                self.resetScene()
+                player.resetPosition()
+            }
+        }
+    }
+    
+    private func resetScene() {
+        lg.resetScene(self)
+        lg.addGroundToScene(self)
+        lg.addImageToScene(self, levelImageName: "nah")
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { // Change `2.0` to the desired number of seconds.
+            self.player = self.lg.addPlayerToScene(self)
+        }
+        lg.addEdgePlatformsToScene(self)
+        lg.addExtraPlatformsToScene(self)
     }
 }

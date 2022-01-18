@@ -32,6 +32,7 @@ class LevelGenerator {
     }
     
     let PLATFORM_PIXEL_SIZE = 1
+    let NUM_PIXELS_TO_SKIP = 2
     func addEdgePlatformsToScene(_ scene : GameScene) {
         if levelImage != nil{
             print("addEdgePlatformsToScene: Loading platforms")
@@ -42,23 +43,28 @@ class LevelGenerator {
         let cannyLevelImage = OpenCVWrapper.toCanny(levelImage!)
         let proc = ImageProcessor(img: cannyLevelImage.cgImage!)
         
-        for x in 0...proc.width-1 {
-            for y in 0...proc.height-1 {
+        for x in stride(from: 0, to: proc.width - 1, by: NUM_PIXELS_TO_SKIP) {
+            for y in stride(from: 0, to: proc.height - 1, by: NUM_PIXELS_TO_SKIP) {
+                
                 let color = proc.color_at(x: x, y: y)
                 
                 let colorVal = color.cgColor.components![0]
                 if (colorVal > 0.0) {
-                    
-                    let size = CGSize(width: PLATFORM_PIXEL_SIZE, height: PLATFORM_PIXEL_SIZE)
-                    let pos = CGPoint(x: x, y: Int(UIScreen.main.bounds.height) - y)
-                    let platform = Platform(pos, size)
-                    platform.draw(scene)
-                    platform.fadeOut(time: 3)
+                    self.drawEdgePlatform(scene, x, y)
                 }
             }
         }
         
         proc.freeImageMemory()
+    }
+    
+    private func drawEdgePlatform(_ scene : GameScene, _ x : Int, _ y : Int) {
+        let size = CGSize(width: PLATFORM_PIXEL_SIZE, height: PLATFORM_PIXEL_SIZE)
+        let pos = CGPoint(x: x, y: Int(UIScreen.main.bounds.height) - y)
+        let platform = Platform(pos, size)
+        platform.draw(scene)
+        platform.fadeOut(time: 3)
+        
     }
     
     func addExtraPlatformsToScene(_ scene : GameScene) {
@@ -85,8 +91,7 @@ class LevelGenerator {
     
     func addPlayerToScene(_ scene : GameScene) -> Player {
         print("addPlayerToScene: Rendering player...")
-        let pos = CGPoint(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.2)
-        let player = Player(pos, Player.SPRITE_SIZE)
+        let player = Player(Player.DEFAULT_POSITION, Player.SPRITE_SIZE)
         player.draw(scene)
         return player
     }
@@ -117,9 +122,11 @@ class LevelGenerator {
     }
     
     func randomImageCrop() {
-        
         let image = levelImage!
-        let xOffset = Int.random(in: 1 ..< Int(image.size.width - UIScreen.main.bounds.width))
+        
+        print("randomImageCrop: Cropping image with width \(image.size.width). UIScreen width is \(UIScreen.main.bounds.width)")
+        
+        let xOffset = Int.random(in: 0 ... Int(image.size.width - UIScreen.main.bounds.width))
         let cropRect = CGRect(x: CGFloat(xOffset), y: 0, width: UIScreen.main.bounds.width, height: image.size.height).integral
         
         let croppedCG = image.cgImage?.cropping(to: cropRect)
