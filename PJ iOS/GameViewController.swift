@@ -14,21 +14,19 @@ class GameViewController: UIViewController {
     
     @IBOutlet weak var imageViewOutput: UIImageView!
     
+    override func loadView() {
+        self.view = SKView()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Present the scene
-        let skView = self.view as! SKView
-      
-        let scene = GameScene()
-        
-        skView.presentScene(scene)
-        
-        skView.ignoresSiblingOrder = true
-        skView.showsFPS = true
-        skView.showsNodeCount = true
-        
+        print("HERE");
+        self.startGame()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        print("HERE1")
+    }
     override var shouldAutorotate: Bool {
         return true
     }
@@ -43,6 +41,18 @@ class GameViewController: UIViewController {
 
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+    
+    private func startGame() {
+        let skView = self.view as! SKView
+      
+        let scene = GameScene()
+        
+        skView.presentScene(scene)
+        
+        skView.ignoresSiblingOrder = true
+        skView.showsFPS = true
+        skView.showsNodeCount = true
     }
 }
  

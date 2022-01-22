@@ -13,33 +13,12 @@ class ImageExtractor {
     
     func loadAllPhotoRefs() {
         /// Load Photos
-        let group = DispatchGroup()
-        group.enter()
-        PHPhotoLibrary.requestAuthorization { (status) in
-            switch status {
-            case .authorized:
-                print("Good to proceed")
-                let fetchOptions = PHFetchOptions()
-                
-                let assets = PHAsset.fetchAssets(with: .image, options: fetchOptions)
-                let assetsArray = assets.objects(at: IndexSet(integersIn: 0...assets.count - 1))
-                
-                self.allPhotos = assetsArray.filter { Int($0.pixelWidth) >= Int(UIScreen.main.bounds.width)}
-                
-                group.leave()
-            case .denied, .restricted:
-                print("Not allowed")
-            case .notDetermined:
-                print("Not determined yet")
-            case .limited:
-                print("Photo Access is limited")
-            @unknown default:
-                print("Photo access default")
-            }
-            
-            
-        }
-        group.wait()
+        let fetchOptions = PHFetchOptions()
+        
+        let assets = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+        let assetsArray = assets.objects(at: IndexSet(integersIn: 0...assets.count - 1))
+        
+        self.allPhotos = assetsArray.filter { Int($0.pixelWidth) >= Int(UIScreen.main.bounds.width)}
     }
     
     func getRandomPhoto() -> UIImage?{

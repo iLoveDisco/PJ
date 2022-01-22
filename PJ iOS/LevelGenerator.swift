@@ -15,6 +15,7 @@ class LevelGenerator {
         print("addImageToScene: Loading level image")
         let imageExtractor = ImageExtractor()
         self.levelImage = imageExtractor.getRandomPhoto()
+        print(self.levelImage)
         self.resizeImageToScreenHeight(self.levelImage!)
         self.randomImageCrop()
         
