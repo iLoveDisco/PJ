@@ -20,13 +20,9 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("HERE");
         self.startGame()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        print("HERE1")
-    }
     override var shouldAutorotate: Bool {
         return true
     }

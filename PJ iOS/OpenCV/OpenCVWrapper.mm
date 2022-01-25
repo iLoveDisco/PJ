@@ -48,8 +48,6 @@ using namespace cv;
 #pragma mark Private
 
 + (Mat)_grayFrom:(Mat)source {
-    cout << "-> grayFrom ->";
-    
     Mat result;
     cvtColor(source, result, COLOR_BGR2GRAY);
 
@@ -57,8 +55,6 @@ using namespace cv;
 }
 
 + (Mat)_matFrom:(UIImage *)source {
-    cout << "matFrom ->";
-    
     CGImageRef image = CGImageCreateCopy(source.CGImage);
     CGFloat cols = CGImageGetWidth(image);
     CGFloat rows = CGImageGetHeight(image);
@@ -77,8 +73,7 @@ using namespace cv;
 }
 
 + (UIImage *)_imageFrom:(Mat)source {
-    cout << "-> imageFrom\n";
-    
+  
     NSData *data = [NSData dataWithBytes:source.data length:source.elemSize() * source.total()];
     CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)data);
 

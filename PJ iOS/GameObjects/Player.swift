@@ -9,7 +9,7 @@ import Foundation
 import SpriteKit
 class Player : GameObject {
     let node = SKSpriteNode(imageNamed: "player")
-    var jumpCount : Int = 0
+
     var canJump : Bool = true
     var timeSinceLastJump : Double = 0
     
@@ -50,10 +50,6 @@ class Player : GameObject {
         if self.canJump{
             let direction = CGVector(dx: 0, dy: Player.JUMP_POWER)
             self.node.physicsBody?.applyImpulse(direction)
-            
-            self.jumpCount = jumpCount + 1
-            print("Jumping \(jumpCount) \(CACurrentMediaTime())")
-            
             timeSinceLastJump = CACurrentMediaTime()
             self.disableJumping()
         }

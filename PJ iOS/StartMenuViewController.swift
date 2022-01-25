@@ -64,9 +64,7 @@ class StartMenuViewController: UIViewController {
 
 class StartGameSegue : UIStoryboardSegue {
     override func perform() {
-        print(self.source)
         if let navigationController = self.source.navigationController {
-            print("at segue")
             navigationController.setViewControllers([self.destination], animated: true)
         }
     }

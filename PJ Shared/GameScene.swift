@@ -18,8 +18,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let ADD_PLAYER_AFTER_DELAY = 2.0
     
     
+    
     override func didMove(to view: SKView) {
         view.showsPhysics = false
+        self.speed = 2.0
+        
         self.physicsWorld.gravity = CGVector(dx:0,dy:-8)
         self.motion = CMMotionManager()
         self.motion.startDeviceMotionUpdates()
@@ -94,7 +97,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         lg.addGroundToScene(self)
         lg.addImageToScene(self, levelImageName: "nah")
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { // Change `2.0` to the desired number of seconds.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Change `2.0` to the desired number of seconds.
             self.player = self.lg.addPlayerToScene(self)
         }
         lg.addEdgePlatformsToScene(self)

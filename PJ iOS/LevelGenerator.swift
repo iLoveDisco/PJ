@@ -12,10 +12,9 @@ class LevelGenerator {
     var levelImage : UIImage?
     
     func addImageToScene(_ scene: GameScene, levelImageName : String) {
-        print("addImageToScene: Loading level image")
         let imageExtractor = ImageExtractor()
         self.levelImage = imageExtractor.getRandomPhoto()
-        print(self.levelImage)
+
         self.resizeImageToScreenHeight(self.levelImage!)
         self.randomImageCrop()
         
@@ -35,12 +34,6 @@ class LevelGenerator {
     let PLATFORM_PIXEL_SIZE = 1
     let NUM_PIXELS_TO_SKIP = 2
     func addEdgePlatformsToScene(_ scene : GameScene) {
-        if levelImage != nil{
-            print("addEdgePlatformsToScene: Loading platforms")
-        } else {
-            fatalError("addEdgePlatformsToScene: levelImage is not defined")
-        }
-        
         let cannyLevelImage = OpenCVWrapper.toCanny(levelImage!)
         let proc = ImageProcessor(img: cannyLevelImage.cgImage!)
         
@@ -69,21 +62,31 @@ class LevelGenerator {
     }
     
     func addExtraPlatformsToScene(_ scene : GameScene) {
-        print("addExtraPlatformsToScene: Adding extra platforms")
+        let edgePlatforms = scene.children.filter { platform in
+            platform.name == "PLATFORM"
+        }
         
-        for y in 0...Int(UIScreen.main.bounds.height) {
-            if y % scene.JUMP_HEIGHT - scene.JUMP_HEIGHT_LEEWAY == 0 {
-                for _ in 1...Int.random(in: 1...3) {
-                    let pos = CGPoint(x: Int.random(in: 0...Int(UIScreen.main.bounds.width)), y: y + Int.random(in: -20...0) + -20)
-                    let platform = Platform(pos, CGSize(width: 40, height: 4))
-                    platform.draw(scene)
-                }
+        
+        let sortedEdgePlatforms = edgePlatforms.sorted { node1, node2 in
+            let pos1 = node1.position
+            let pos2 = node2.position
+            
+            if pos1.y == pos2.y {
+                return pos1.x < pos2.x
+            } else {
+                return pos1.y < pos2.y
             }
         }
+        
+        for y in stride(from: 0, to: scene.size.height, by: 50) {
+            let pos = CGPoint(x: scene.size.width / 2, y: y)
+            let platform = Platform(pos, CGSize(width: 40, height: 2))
+            platform.draw(scene)
+        }
+        
     }
     
     func addGroundToScene(_ scene : GameScene) {
-        print("addGroundToScene: Adding the ground to the scene")
         let pos = CGPoint(x: UIScreen.main.bounds.width / 2, y: 0)
         let ground = Platform(pos, CGSize(width: UIScreen.main.bounds.width, height: 40))
         
@@ -91,7 +94,6 @@ class LevelGenerator {
     }
     
     func addPlayerToScene(_ scene : GameScene) -> Player {
-        print("addPlayerToScene: Rendering player...")
         let player = Player(Player.DEFAULT_POSITION, Player.SPRITE_SIZE)
         player.draw(scene)
         return player
@@ -124,16 +126,18 @@ class LevelGenerator {
     
     func randomImageCrop() {
         let image = levelImage!
+
         
-        print("randomImageCrop: Cropping image with width \(image.size.width). UIScreen width is \(UIScreen.main.bounds.width)")
+        var xOffset = 0
         
-        let xOffset = Int.random(in: 0 ... Int(image.size.width - UIScreen.main.bounds.width))
+        if image.size.width > UIScreen.main.bounds.width {
+            xOffset = Int.random(in: 0 ... Int(image.size.width - UIScreen.main.bounds.width))
+        }
+        
         let cropRect = CGRect(x: CGFloat(xOffset), y: 0, width: UIScreen.main.bounds.width, height: image.size.height).integral
         
         let croppedCG = image.cgImage?.cropping(to: cropRect)
         
         self.levelImage = UIImage(cgImage: croppedCG!)
     }
-    
-    
 }
