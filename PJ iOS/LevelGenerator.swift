@@ -11,7 +11,7 @@ import SpriteKit
 class LevelGenerator {
     var levelImage : UIImage?
     
-    func addImageToScene(_ scene: GameScene, levelImageName : String) {
+    func addImageToScene(_ scene: GameScene) {
         let imageExtractor = ImageExtractor()
         self.levelImage = imageExtractor.getRandomPhoto()
 
@@ -21,6 +21,8 @@ class LevelGenerator {
         let levelTexture = SKTexture(image: levelImage!)
         let background = SKSpriteNode(texture: levelTexture)
         
+        background.name = "IMAGE"
+        
         background.zPosition = 1
         background.position = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
         background.size = scene.size
@@ -28,6 +30,7 @@ class LevelGenerator {
         background.physicsBody?.collisionBitMask = 0b0010
         background.physicsBody?.isDynamic = false
         background.physicsBody?.affectedByGravity = false
+        
         scene.addChild(background);
     }
     
@@ -52,21 +55,60 @@ class LevelGenerator {
         proc.freeImageMemory()
     }
     
+    let X_ZONE = 40.0
+    let Y_ZONE = 40.0
+    func addExtraPlatformsToScene(_ scene : GameScene) {
+        let edgePlatforms = scene.children.filter { platform in
+            platform.name == "PLATFORM"
+        }
+        
+        let sortedEdgePlatforms = sortEdgePlatforms(edgePlatforms)
+        //TODO : ADD INITIAL ZONE
+        var zonesWithPlatforms : [CGFloat] = []
+        
+        for yStart in stride(from: 0, to: scene.size.height - 1, by: Y_ZONE) {
+            
+            for xStart in stride(from: 0, to: scene.size.width - 1, by: X_ZONE) {
+                if !zoneHasPlatforms(xStart: xStart, yStart: yStart, sortedPlatforms: sortedEdgePlatforms) {
+                    if Int.random(in: 0...3) == 3 {
+                        let platformPos = CGPoint(x: xStart + X_ZONE/2, y: yStart)
+                        let platform = Platform(platformPos, CGSize(width: X_ZONE - X_ZONE * 0.2, height: 4))
+                        platform.draw(scene)
+                    }
+                } else {
+                    zonesWithPlatforms.append(xStart)
+                }
+            }
+        }
+    }
+    
     private func drawEdgePlatform(_ scene : GameScene, _ x : Int, _ y : Int) {
         let size = CGSize(width: PLATFORM_PIXEL_SIZE, height: PLATFORM_PIXEL_SIZE)
         let pos = CGPoint(x: x, y: Int(UIScreen.main.bounds.height) - y)
         let platform = Platform(pos, size)
         platform.draw(scene)
         platform.fadeOut(time: 3)
-        
     }
     
-    func addExtraPlatformsToScene(_ scene : GameScene) {
-        let edgePlatforms = scene.children.filter { platform in
-            platform.name == "PLATFORM"
+    
+    // TODO: Improve performance VIA hashmap
+    private func zoneHasPlatforms(xStart : CGFloat, yStart : CGFloat, sortedPlatforms : [SKNode]) -> Bool{
+        let xEnd = xStart + X_ZONE
+        let yEnd = yStart + Y_ZONE
+        
+        for node in sortedPlatforms {
+            let pos = node.position
+            if xStart < pos.x && pos.x < xEnd {
+                if yStart < pos.y && pos.y < yEnd {
+                    return true
+                }
+            }
         }
         
-        
+        return false
+    }
+    
+    private func sortEdgePlatforms(_ edgePlatforms : [SKNode]) -> [SKNode] {
         let sortedEdgePlatforms = edgePlatforms.sorted { node1, node2 in
             let pos1 = node1.position
             let pos2 = node2.position
@@ -78,14 +120,9 @@ class LevelGenerator {
             }
         }
         
-        for y in stride(from: 0, to: scene.size.height, by: 50) {
-            let pos = CGPoint(x: scene.size.width / 2, y: y)
-            let platform = Platform(pos, CGSize(width: 40, height: 2))
-            platform.draw(scene)
-        }
-        
+        return sortedEdgePlatforms
     }
-    
+
     func addGroundToScene(_ scene : GameScene) {
         let pos = CGPoint(x: UIScreen.main.bounds.width / 2, y: 0)
         let ground = Platform(pos, CGSize(width: UIScreen.main.bounds.width, height: 40))
@@ -104,7 +141,6 @@ class LevelGenerator {
     }
     
     func resizeImageToScreenHeight(_ image : UIImage)  {
-        
         let screenSize: CGRect = UIScreen.main.bounds
         let ratio = screenSize.height / image.size.height
         

@@ -13,6 +13,7 @@ class ImageExtractor {
     
     static var WHERE_WE_LEFT_OFF = 75
     static var idx = 0
+    
     func loadAllPhotoRefs() {
         /// Load Photos
         let fetchOptions = PHFetchOptions()
@@ -32,8 +33,8 @@ class ImageExtractor {
         var output: UIImage?
         self.loadAllPhotoRefs()
         if let allPhotos = self.allPhotos {
-            
-            let asset = allPhotos[ImageExtractor.idx]
+            let randomIdx = Int.random(in: 0...allPhotos.count - 1)
+            let asset = allPhotos[randomIdx]
             ImageExtractor.idx = ImageExtractor.idx - 1
             
             let manager = PHImageManager.default()

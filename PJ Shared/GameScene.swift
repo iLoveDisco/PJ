@@ -17,8 +17,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let ADD_PLAYER_AFTER_DELAY = 2.0
     
-    
-    
     override func didMove(to view: SKView) {
         view.showsPhysics = false
         self.speed = 2.0
@@ -86,8 +84,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private func handleGameFinish() {
         if let player = self.player {
             if player.isAboveScreen() {
-                self.resetScene()
                 player.resetPosition()
+                self.resetScene()
             }
         }
     }
@@ -95,7 +93,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private func resetScene() {
         lg.resetScene(self)
         lg.addGroundToScene(self)
-        lg.addImageToScene(self, levelImageName: "nah")
+        lg.addImageToScene(self)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Change `2.0` to the desired number of seconds.
             self.player = self.lg.addPlayerToScene(self)

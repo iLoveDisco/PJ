@@ -17,7 +17,7 @@ class Player : GameObject {
     static let BODY_SIZE = SPRITE_SIZE
     static let DRIFT : Double = 20
     static let JUMP_POWER = 15
-    static let DEFAULT_POSITION = CGPoint(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.2)
+    static let DEFAULT_POSITION = CGPoint(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.1)
     
     override init(_ pos: CGPoint, _ size: CGSize) {
         super.init(pos, size)
