@@ -65,21 +65,46 @@ class LevelGenerator {
         let sortedEdgePlatforms = sortEdgePlatforms(edgePlatforms)
         //TODO : ADD INITIAL ZONE
         var zonesWithPlatforms : [CGFloat] = []
-        
+        var minimumPathZone = 0.0
         for yStart in stride(from: 0, to: scene.size.height - 1, by: Y_ZONE) {
             
-            for xStart in stride(from: 0, to: scene.size.width - 1, by: X_ZONE) {
-                if !zoneHasPlatforms(xStart: xStart, yStart: yStart, sortedPlatforms: sortedEdgePlatforms) {
-                    if Int.random(in: 0...3) == 3 {
-                        let platformPos = CGPoint(x: xStart + X_ZONE/2, y: yStart)
-                        let platform = Platform(platformPos, CGSize(width: X_ZONE - X_ZONE * 0.2, height: 4))
-                        platform.draw(scene)
-                    }
-                } else {
-                    zonesWithPlatforms.append(xStart)
-                }
+            zonesWithPlatforms = []
+            
+            if zoneHasPlatforms(xStart: minimumPathZone, yStart: yStart, sortedPlatforms: edgePlatforms) {
+                zonesWithPlatforms.append(minimumPathZone)
             }
+            
+            if zoneHasPlatforms(xStart: minimumPathZone - X_ZONE, yStart: yStart, sortedPlatforms: edgePlatforms) {
+                zonesWithPlatforms.append(minimumPathZone - X_ZONE);
+            }
+            
+            if zoneHasPlatforms(xStart: minimumPathZone + X_ZONE, yStart: yStart, sortedPlatforms: edgePlatforms) {
+                zonesWithPlatforms.append(minimumPathZone + X_ZONE)
+            }
+            
+            var nextZone = 0.0
+            if zonesWithPlatforms.count == 0 {
+                nextZone = minimumPathZone - X_ZONE + CGFloat(Int.random(in: 1...3)) * X_ZONE
+                drawExtraPlatform(scene, nextZone + 20, yStart)
+            } else {
+                nextZone = zonesWithPlatforms[Int.random(in: 0..<zonesWithPlatforms.count)]
+            }
+            
+            minimumPathZone = nextZone
+            
         }
+    }
+    
+    private func drawExtraPlatform(_ scene : GameScene, _ x : CGFloat, _ y :CGFloat) {
+        var x = x
+        if x < 0 {
+            x = UIScreen.main.bounds.width + x
+        }
+        
+        let size = CGSize(width: 40, height: 5)
+        let pos = CGPoint(x: x, y: y)
+        let platform = Platform(pos, size)
+        platform.draw(scene)
     }
     
     private func drawEdgePlatform(_ scene : GameScene, _ x : Int, _ y : Int) {
@@ -93,6 +118,11 @@ class LevelGenerator {
     
     // TODO: Improve performance VIA hashmap
     private func zoneHasPlatforms(xStart : CGFloat, yStart : CGFloat, sortedPlatforms : [SKNode]) -> Bool{
+        var xStart = xStart
+        if xStart < 0 {
+            xStart = UIScreen.main.bounds.width + xStart
+        }
+        
         let xEnd = xStart + X_ZONE
         let yEnd = yStart + Y_ZONE
         

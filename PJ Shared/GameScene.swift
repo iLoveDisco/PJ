@@ -18,7 +18,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let ADD_PLAYER_AFTER_DELAY = 2.0
     
     override func didMove(to view: SKView) {
-        view.showsPhysics = false
+        view.showsPhysics = true
         self.speed = 2.0
         
         self.physicsWorld.gravity = CGVector(dx:0,dy:-8)
