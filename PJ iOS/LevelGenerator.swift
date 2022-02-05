@@ -37,9 +37,19 @@ class LevelGenerator {
     let PLATFORM_PIXEL_SIZE = 1
     let NUM_PIXELS_TO_SKIP = 2
     func addEdgePlatformsToScene(_ scene : GameScene) {
-        let cannyLevelImage = OpenCVWrapper.toCanny(levelImage!)
+        var edgePoints = renderEdgePlatforms(100,200)
+        if edgePoints.count > 10000 {
+            edgePoints = renderEdgePlatforms(100, 100)
+        }
+        for point in edgePoints {
+            self.drawEdgePlatform(scene, point)
+        }
+    }
+    
+    func renderEdgePlatforms(_ thresh1 : Double, _ thresh2: Double) -> [CGPoint]{
+        let cannyLevelImage = OpenCVWrapper.toCanny(levelImage!,thresh1,thresh2)
         let proc = ImageProcessor(img: cannyLevelImage.cgImage!)
-        
+        var edgeLocations : [CGPoint] = []
         for x in stride(from: 0, to: proc.width - 1, by: NUM_PIXELS_TO_SKIP) {
             for y in stride(from: 0, to: proc.height - 1, by: NUM_PIXELS_TO_SKIP) {
                 
@@ -47,16 +57,16 @@ class LevelGenerator {
                 
                 let colorVal = color.cgColor.components![0]
                 if (colorVal > 0.0) {
-                    self.drawEdgePlatform(scene, x, y)
+                    edgeLocations.append(CGPoint(x: CGFloat(x), y: UIScreen.main.bounds.height - CGFloat(y)))
                 }
             }
         }
-        
         proc.freeImageMemory()
+        return edgeLocations
     }
     
     let X_ZONE = 40.0
-    let Y_ZONE = 40.0
+    let Y_ZONE = 50.0
     func addExtraPlatformsToScene(_ scene : GameScene) {
         let edgePlatforms = scene.children.filter { platform in
             platform.name == "PLATFORM"
@@ -65,8 +75,10 @@ class LevelGenerator {
         let sortedEdgePlatforms = sortEdgePlatforms(edgePlatforms)
         //TODO : ADD INITIAL ZONE
         var zonesWithPlatforms : [CGFloat] = []
-        var minimumPathZone = 0.0
-        for yStart in stride(from: 0, to: scene.size.height - 1, by: Y_ZONE) {
+        var minimumPathZone = scene.size.width / 2
+        drawExtraPlatform(scene, minimumPathZone, 2)
+        
+        for yStart in stride(from: Y_ZONE, to: scene.size.height - 1, by: Y_ZONE) {
             
             zonesWithPlatforms = []
             
@@ -84,8 +96,8 @@ class LevelGenerator {
             
             var nextZone = 0.0
             if zonesWithPlatforms.count == 0 {
-                nextZone = minimumPathZone - X_ZONE + CGFloat(Int.random(in: 1...3)) * X_ZONE
-                drawExtraPlatform(scene, nextZone + 20, yStart)
+                nextZone = minimumPathZone - X_ZONE + CGFloat(Int.random(in: 0...2)) * X_ZONE
+                drawExtraPlatform(scene, nextZone + 20, yStart + Y_ZONE / 2)
             } else {
                 nextZone = zonesWithPlatforms[Int.random(in: 0..<zonesWithPlatforms.count)]
             }
@@ -101,15 +113,16 @@ class LevelGenerator {
             x = UIScreen.main.bounds.width + x
         }
         
+        x = CGFloat(Int(x) % Int(UIScreen.main.bounds.width))
+        
         let size = CGSize(width: 40, height: 5)
         let pos = CGPoint(x: x, y: y)
         let platform = Platform(pos, size)
         platform.draw(scene)
     }
     
-    private func drawEdgePlatform(_ scene : GameScene, _ x : Int, _ y : Int) {
+    private func drawEdgePlatform(_ scene : GameScene, _ pos : CGPoint) {
         let size = CGSize(width: PLATFORM_PIXEL_SIZE, height: PLATFORM_PIXEL_SIZE)
-        let pos = CGPoint(x: x, y: Int(UIScreen.main.bounds.height) - y)
         let platform = Platform(pos, size)
         platform.draw(scene)
         platform.fadeOut(time: 3)
@@ -151,13 +164,6 @@ class LevelGenerator {
         }
         
         return sortedEdgePlatforms
-    }
-
-    func addGroundToScene(_ scene : GameScene) {
-        let pos = CGPoint(x: UIScreen.main.bounds.width / 2, y: 0)
-        let ground = Platform(pos, CGSize(width: UIScreen.main.bounds.width, height: 40))
-        
-        ground.draw(scene)
     }
     
     func addPlayerToScene(_ scene : GameScene) -> Player {

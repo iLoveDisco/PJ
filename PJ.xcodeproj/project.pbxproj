@@ -116,13 +116,13 @@
 			children = (
 				F0FFB18727855FFE0014A311 /* ImageProcessor.swift */,
 				F0FFB18527855FE70014A311 /* LevelGenerator.swift */,
+				F0FFB1D8279261290014A311 /* ImageExtractor.swift */,
 				F0FFB18B2785607D0014A311 /* GameObjects */,
 				F0FFB17E27855F5B0014A311 /* OpenCV */,
 				F0FFB16B27855EA60014A311 /* AppDelegate.swift */,
 				F0FFB16D27855EA60014A311 /* StartMenuViewController.swift */,
 				F0FFB16F27855EA60014A311 /* Main.storyboard */,
 				F0FFB17227855EA60014A311 /* LaunchScreen.storyboard */,
-				F0FFB1D8279261290014A311 /* ImageExtractor.swift */,
 				F035353F279BD06500021DAE /* GameViewController.swift */,
 			);
 			path = "PJ iOS";
@@ -397,7 +397,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R8GHK8844T;
-				EXCLUDED_ARCHS = arm64;
+				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = "/Users/comfy/Documents/Projects/ThirdPartyFrameworks/**";
 				GCC_PREFIX_HEADER = "/Users/comfy/Documents/Projects/PJ/PJ iOS/OpenCV/PrefixHeader.pch";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -434,7 +434,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R8GHK8844T;
-				EXCLUDED_ARCHS = arm64;
+				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = "/Users/comfy/Documents/Projects/ThirdPartyFrameworks/**";
 				GCC_PREFIX_HEADER = "/Users/comfy/Documents/Projects/PJ/PJ iOS/OpenCV/PrefixHeader.pch";
 				GENERATE_INFOPLIST_FILE = YES;

@@ -15,6 +15,11 @@ class GameObject {
     init(_ pos: CGPoint, _ size: CGSize) {
         self.pos = pos;
         self.size = size;
+        self.resetPhysics()
+    }
+    
+    func resetPhysics() {
+        fatalError("resetPhysics() should be overridden")
     }
     
     func getNode() -> SKSpriteNode {

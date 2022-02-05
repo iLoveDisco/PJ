@@ -23,9 +23,12 @@ class Player : GameObject {
         super.init(pos, size)
         node.position = super.pos;
         node.size = super.size;
-        node.zPosition = 10
         node.name = "PLAYER"
-        
+        node.zPosition = 10
+        self.canJump = true
+    }
+    
+    override func resetPhysics() {
         node.physicsBody = SKPhysicsBody(rectangleOf: Player.BODY_SIZE)
         node.physicsBody?.affectedByGravity = true
         node.physicsBody?.allowsRotation = false
@@ -38,8 +41,6 @@ class Player : GameObject {
         node.physicsBody?.contactTestBitMask = 0b00000000
         node.physicsBody?.categoryBitMask =    0b00000000
         node.physicsBody?.collisionBitMask =   0b00000000
-        
-        self.canJump = true
     }
     
     override func getNode() -> SKSpriteNode {
@@ -78,5 +79,9 @@ class Player : GameObject {
     
     func resetPosition() {
         self.node.position = Player.DEFAULT_POSITION
+    }
+    
+    func die() {
+        
     }
 }

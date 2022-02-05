@@ -17,7 +17,9 @@ class Platform : GameObject{
         node.size = size;
         node.zPosition = PLATFORM_Z_POS
         node.name = "PLATFORM"
-        
+    }
+    
+    override func resetPhysics() {
         node.physicsBody = SKPhysicsBody(rectangleOf: size)
         node.physicsBody?.affectedByGravity = false
         node.physicsBody?.allowsRotation = false
@@ -32,7 +34,6 @@ class Platform : GameObject{
         node.physicsBody?.contactTestBitMask = 0b00000000
         node.physicsBody?.categoryBitMask =    0b00000000
         node.physicsBody?.collisionBitMask =   0b00000000
-    
     }
     
     override func getNode() -> SKSpriteNode {

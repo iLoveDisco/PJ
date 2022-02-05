@@ -92,10 +92,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func resetScene() {
         lg.resetScene(self)
-        lg.addGroundToScene(self)
         lg.addImageToScene(self)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Change `2.0` to the desired number of seconds.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { // Change `2.0` to the desired number of seconds.
             self.player = self.lg.addPlayerToScene(self)
         }
         lg.addEdgePlatformsToScene(self)

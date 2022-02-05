@@ -37,11 +37,11 @@ using namespace cv;
     
 }
 
-+ (UIImage *)toCanny:(UIImage *)source {
++ (UIImage *)toCanny:(UIImage *)source :(double) thresh1:(double) thresh2 {
     Mat sourceMat = [OpenCVWrapper _matFrom:source];
     
     Mat outputMat = Mat(sourceMat);
-    Canny(sourceMat, outputMat, 100, 200);
+    Canny(sourceMat, outputMat, thresh1, thresh2);
     return [OpenCVWrapper _imageFrom: outputMat];
 }
 

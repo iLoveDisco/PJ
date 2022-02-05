@@ -11,7 +11,7 @@ import Photos
 class ImageExtractor {
     var allPhotos : [PHAsset]? = []
     
-    static var WHERE_WE_LEFT_OFF = 75
+    static var WHERE_WE_LEFT_OFF = 109
     static var idx = 0
     
     func loadAllPhotoRefs() {
@@ -24,7 +24,7 @@ class ImageExtractor {
         self.allPhotos = assetsArray.filter { Int($0.pixelWidth) >= Int(UIScreen.main.bounds.width)}
         
         if ImageExtractor.idx == 0 {
-            ImageExtractor.idx = self.allPhotos!.count - 1 - ImageExtractor.WHERE_WE_LEFT_OFF
+            ImageExtractor.idx = self.allPhotos!.count - ImageExtractor.WHERE_WE_LEFT_OFF
         }
     }
     
@@ -34,7 +34,9 @@ class ImageExtractor {
         self.loadAllPhotoRefs()
         if let allPhotos = self.allPhotos {
             let randomIdx = Int.random(in: 0...allPhotos.count - 1)
-            let asset = allPhotos[randomIdx]
+            let asset = allPhotos[ImageExtractor.idx]
+            print("Using image: \(allPhotos.count - ImageExtractor.idx) of \(allPhotos.count). Photo date: \(asset.creationDate!) (width,height) : (\(asset.pixelWidth),\(asset.pixelHeight))")
+            
             ImageExtractor.idx = ImageExtractor.idx - 1
             
             let manager = PHImageManager.default()
@@ -55,7 +57,6 @@ class ImageExtractor {
                 print("Detecting a BAD photo!")
             }
             
-            print("Using image: \(allPhotos.count - ImageExtractor.idx) of \(allPhotos.count). Photo date: \(asset.creationDate!) (width,height) : (\(asset.pixelWidth),\(asset.pixelHeight))")
             
         }
         return output
