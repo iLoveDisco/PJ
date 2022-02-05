@@ -15,22 +15,7 @@ class LevelGenerator {
         let imageExtractor = ImageExtractor()
         self.levelImage = imageExtractor.getRandomPhoto()
 
-        self.resizeImageToScreenHeight(self.levelImage!)
-        self.randomImageCrop()
-        
-        let levelTexture = SKTexture(image: levelImage!)
-        let background = SKSpriteNode(texture: levelTexture)
-        
-        background.name = "IMAGE"
-        
-        background.zPosition = 1
-        background.position = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
-        background.size = scene.size
-        
-        background.physicsBody?.collisionBitMask = 0b0010
-        background.physicsBody?.isDynamic = false
-        background.physicsBody?.affectedByGravity = false
-        
+        let background = self.createBackground(scene)
         scene.addChild(background);
     }
     
@@ -46,33 +31,12 @@ class LevelGenerator {
         }
     }
     
-    func renderEdgePlatforms(_ thresh1 : Double, _ thresh2: Double) -> [CGPoint]{
-        let cannyLevelImage = OpenCVWrapper.toCanny(levelImage!,thresh1,thresh2)
-        let proc = ImageProcessor(img: cannyLevelImage.cgImage!)
-        var edgeLocations : [CGPoint] = []
-        for x in stride(from: 0, to: proc.width - 1, by: NUM_PIXELS_TO_SKIP) {
-            for y in stride(from: 0, to: proc.height - 1, by: NUM_PIXELS_TO_SKIP) {
-                
-                let color = proc.color_at(x: x, y: y)
-                
-                let colorVal = color.cgColor.components![0]
-                if (colorVal > 0.0) {
-                    edgeLocations.append(CGPoint(x: CGFloat(x), y: UIScreen.main.bounds.height - CGFloat(y)))
-                }
-            }
-        }
-        proc.freeImageMemory()
-        return edgeLocations
-    }
-    
     let X_ZONE = 40.0
     let Y_ZONE = 50.0
     func addExtraPlatformsToScene(_ scene : GameScene) {
         let edgePlatforms = scene.children.filter { platform in
             platform.name == "PLATFORM"
         }
-        
-        let sortedEdgePlatforms = sortEdgePlatforms(edgePlatforms)
         //TODO : ADD INITIAL ZONE
         var zonesWithPlatforms : [CGFloat] = []
         var minimumPathZone = scene.size.width / 2
@@ -107,6 +71,22 @@ class LevelGenerator {
         }
     }
     
+    private func createBackground(_ scene: GameScene) -> SKNode{
+        let levelTexture = SKTexture(image: levelImage!)
+        let background = SKSpriteNode(texture: levelTexture)
+        
+        background.name = "IMAGE"
+        
+        background.zPosition = 1
+        background.position = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
+        background.size = scene.size
+        
+        background.physicsBody?.collisionBitMask = 0b0010
+        background.physicsBody?.isDynamic = false
+        background.physicsBody?.affectedByGravity = false
+        return background
+    }
+    
     private func drawExtraPlatform(_ scene : GameScene, _ x : CGFloat, _ y :CGFloat) {
         var x = x
         if x < 0 {
@@ -128,6 +108,23 @@ class LevelGenerator {
         platform.fadeOut(time: 3)
     }
     
+    private func renderEdgePlatforms(_ thresh1 : Double, _ thresh2: Double) -> [CGPoint]{
+        let cannyLevelImage = OpenCVWrapper.toCanny(levelImage!,thresh1,thresh2)
+        let proc = ImageProcessor(img: cannyLevelImage.cgImage!)
+        var edgeLocations : [CGPoint] = []
+        for x in stride(from: 0, to: proc.width - 1, by: NUM_PIXELS_TO_SKIP) {
+            for y in stride(from: 0, to: proc.height - 1, by: NUM_PIXELS_TO_SKIP) {
+                
+                let color = proc.color_at(x: x, y: y)
+                let colorVal = color.cgColor.components![0]
+                if (colorVal > 0.0) {
+                    edgeLocations.append(CGPoint(x: CGFloat(x), y: UIScreen.main.bounds.height - CGFloat(y)))
+                }
+            }
+        }
+        proc.freeImageMemory()
+        return edgeLocations
+    }
     
     // TODO: Improve performance VIA hashmap
     private func zoneHasPlatforms(xStart : CGFloat, yStart : CGFloat, sortedPlatforms : [SKNode]) -> Bool{
@@ -151,21 +148,6 @@ class LevelGenerator {
         return false
     }
     
-    private func sortEdgePlatforms(_ edgePlatforms : [SKNode]) -> [SKNode] {
-        let sortedEdgePlatforms = edgePlatforms.sorted { node1, node2 in
-            let pos1 = node1.position
-            let pos2 = node2.position
-            
-            if pos1.y == pos2.y {
-                return pos1.x < pos2.x
-            } else {
-                return pos1.y < pos2.y
-            }
-        }
-        
-        return sortedEdgePlatforms
-    }
-    
     func addPlayerToScene(_ scene : GameScene) -> Player {
         let player = Player(Player.DEFAULT_POSITION, Player.SPRITE_SIZE)
         player.draw(scene)
@@ -174,42 +156,5 @@ class LevelGenerator {
     
     func resetScene(_ scene : GameScene) {
         scene.removeAllChildren()
-    }
-    
-    func resizeImageToScreenHeight(_ image : UIImage)  {
-        let screenSize: CGRect = UIScreen.main.bounds
-        let ratio = screenSize.height / image.size.height
-        
-        let newWidth = ratio * image.size.width
-        let newHeight = screenSize.height
-        
-        let newSize = CGSize(width: newWidth, height: newHeight)
-        // This is the rect that we've calculated out and this is what is actually used below
-        let rect = CGRect(origin: .zero, size: newSize)
-        
-        // Actually do the resizing to the rect using the ImageContext stuff
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-        image.draw(in: rect)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        self.levelImage = newImage
-    }
-    
-    func randomImageCrop() {
-        let image = levelImage!
-
-        
-        var xOffset = 0
-        
-        if image.size.width > UIScreen.main.bounds.width {
-            xOffset = Int.random(in: 0 ... Int(image.size.width - UIScreen.main.bounds.width))
-        }
-        
-        let cropRect = CGRect(x: CGFloat(xOffset), y: 0, width: UIScreen.main.bounds.width, height: image.size.height).integral
-        
-        let croppedCG = image.cgImage?.cropping(to: cropRect)
-        
-        self.levelImage = UIImage(cgImage: croppedCG!)
     }
 }

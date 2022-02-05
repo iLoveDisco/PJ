@@ -34,7 +34,7 @@ class ImageExtractor {
         self.loadAllPhotoRefs()
         if let allPhotos = self.allPhotos {
             let randomIdx = Int.random(in: 0...allPhotos.count - 1)
-            let asset = allPhotos[ImageExtractor.idx]
+            let asset = allPhotos[randomIdx]
             print("Using image: \(allPhotos.count - ImageExtractor.idx) of \(allPhotos.count). Photo date: \(asset.creationDate!) (width,height) : (\(asset.pixelWidth),\(asset.pixelHeight))")
             
             ImageExtractor.idx = ImageExtractor.idx - 1
@@ -56,9 +56,45 @@ class ImageExtractor {
             if output == nil {
                 print("Detecting a BAD photo!")
             }
-            
-            
         }
-        return output
+        
+        let resizedImage = self.resizeImageToScreenHeight(output!)
+        let croppedResizedImage = self.randomImageCrop(resizedImage)
+        
+        return croppedResizedImage
+    }
+    
+    func resizeImageToScreenHeight(_ image : UIImage) -> UIImage {
+        let screenSize: CGRect = UIScreen.main.bounds
+        let ratio = screenSize.height / image.size.height
+        
+        let newWidth = ratio * image.size.width
+        let newHeight = screenSize.height
+        
+        let newSize = CGSize(width: newWidth, height: newHeight)
+        // This is the rect that we've calculated out and this is what is actually used below
+        let rect = CGRect(origin: .zero, size: newSize)
+        
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    }
+    
+    func randomImageCrop(_ image : UIImage) -> UIImage {
+        var xOffset = 0
+        
+        if image.size.width > UIScreen.main.bounds.width {
+            xOffset = Int.random(in: 0 ... Int(image.size.width - UIScreen.main.bounds.width))
+        }
+        
+        let cropRect = CGRect(x: CGFloat(xOffset), y: 0, width: UIScreen.main.bounds.width, height: image.size.height).integral
+        
+        let croppedCG = image.cgImage?.cropping(to: cropRect)
+        
+        return UIImage(cgImage: croppedCG!)
     }
 }
