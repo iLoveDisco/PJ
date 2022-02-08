@@ -24,6 +24,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.gravity = CGVector(dx:0,dy:-8)
         self.motion = CMMotionManager()
         self.motion.startDeviceMotionUpdates()
+        
         physicsWorld.contactDelegate = self
         self.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
 
@@ -38,59 +39,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         if let player = self.player {
-            self.handlePlayerJumps()
-            self.handleDeviceControls()
-            self.handleGameFinish()
-            
-            
-            if player.node.position.x <= 0 {
-                player.node.position.x = UIScreen.main.bounds.width
-            }
-            
-            else if player.node.position.x >= UIScreen.main.bounds.width {
-                player.node.position.x = 0
-            }
-            
+            player.update(scene: self)
         }
     }
     
-    private func handlePlayerJumps() {
-        if let player = self.player {
-            if player.isFalling(){
-                player.enableJumping()
-            } else { // player is rising
-                player.disableJumping()
-            }
-            
-            for node in self.children {
-                if node.name == "PLATFORM" {
-                    if player.isTouching(node) {
-                        player.jump()
-                    }
-                }
-            }
+    func drawExtraPlatform(_ pos : CGPoint) {
+        var pos = pos
+        var x = pos.x
+        if x < 0 {
+            x = UIScreen.main.bounds.width + x
         }
+        
+        x = CGFloat(Int(x) % Int(UIScreen.main.bounds.width))
+        
+        pos.x = x
+        let size = CGSize(width: 40, height: 5)
+        let platform = Platform(pos, size)
+        platform.draw(self)
     }
     
-    private func handleDeviceControls() {
-        if let player = self.player {
-            if let data = motion.deviceMotion {
-                let y = data.attitude.roll
-                player.node.physicsBody?.applyForce(CGVector(dx: y * Player.DRIFT, dy:0))
-            }
-        }
+    let PLATFORM_PIXEL_SIZE = 1
+    func drawEdgePlatform(_ pos : CGPoint) {
+        let size = CGSize(width: PLATFORM_PIXEL_SIZE, height: PLATFORM_PIXEL_SIZE)
+        let platform = Platform(pos, size)
+        platform.draw(self)
+        platform.fadeOut(time: 3)
     }
     
-    private func handleGameFinish() {
-        if let player = self.player {
-            if player.isAboveScreen() {
-                player.resetPosition()
-                self.resetScene()
-            }
-        }
-    }
-    
-    private func resetScene() {
+    func resetScene() {
         lg.resetScene(self)
         lg.addImageToScene(self)
         

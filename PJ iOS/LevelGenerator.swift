@@ -27,20 +27,21 @@ class LevelGenerator {
             edgePoints = renderEdgePlatforms(100, 100)
         }
         for point in edgePoints {
-            self.drawEdgePlatform(scene, point)
+            scene.drawEdgePlatform(point)
         }
     }
     
     let X_ZONE = 40.0
-    let Y_ZONE = 50.0
+    let Y_ZONE = 55.0
     func addExtraPlatformsToScene(_ scene : GameScene) {
         let edgePlatforms = scene.children.filter { platform in
             platform.name == "PLATFORM"
         }
-        //TODO : ADD INITIAL ZONE
+
         var zonesWithPlatforms : [CGFloat] = []
         var minimumPathZone = scene.size.width / 2
-        drawExtraPlatform(scene, minimumPathZone, 2)
+        
+        scene.drawExtraPlatform(CGPoint(x: minimumPathZone, y: 2.0))
         
         for yStart in stride(from: Y_ZONE, to: scene.size.height - 1, by: Y_ZONE) {
             
@@ -61,7 +62,8 @@ class LevelGenerator {
             var nextZone = 0.0
             if zonesWithPlatforms.count == 0 {
                 nextZone = minimumPathZone - X_ZONE + CGFloat(Int.random(in: 0...2)) * X_ZONE
-                drawExtraPlatform(scene, nextZone + 20, yStart + Y_ZONE / 2)
+                
+                scene.drawExtraPlatform(CGPoint(x: nextZone + 20.0, y: yStart + Y_ZONE / 2))
             } else {
                 nextZone = zonesWithPlatforms[Int.random(in: 0..<zonesWithPlatforms.count)]
             }
@@ -85,27 +87,6 @@ class LevelGenerator {
         background.physicsBody?.isDynamic = false
         background.physicsBody?.affectedByGravity = false
         return background
-    }
-    
-    private func drawExtraPlatform(_ scene : GameScene, _ x : CGFloat, _ y :CGFloat) {
-        var x = x
-        if x < 0 {
-            x = UIScreen.main.bounds.width + x
-        }
-        
-        x = CGFloat(Int(x) % Int(UIScreen.main.bounds.width))
-        
-        let size = CGSize(width: 40, height: 5)
-        let pos = CGPoint(x: x, y: y)
-        let platform = Platform(pos, size)
-        platform.draw(scene)
-    }
-    
-    private func drawEdgePlatform(_ scene : GameScene, _ pos : CGPoint) {
-        let size = CGSize(width: PLATFORM_PIXEL_SIZE, height: PLATFORM_PIXEL_SIZE)
-        let platform = Platform(pos, size)
-        platform.draw(scene)
-        platform.fadeOut(time: 3)
     }
     
     private func renderEdgePlatforms(_ thresh1 : Double, _ thresh2: Double) -> [CGPoint]{

@@ -7,15 +7,19 @@
 
 import Foundation
 import SpriteKit
+import CoreMotion
+
 class Player : GameObject {
     let node = SKSpriteNode(imageNamed: "player")
-
+    var motion : CMMotionManager!
+    
     var canJump : Bool = true
     var timeSinceLastJump : Double = 0
+    var isRespawning = false
     
     static let SPRITE_SIZE = CGSize(width: 20, height: 20)
     static let BODY_SIZE = SPRITE_SIZE
-    static let DRIFT : Double = 20
+    static let DRIFT : Double = 25
     static let JUMP_POWER = 15
     static let DEFAULT_POSITION = CGPoint(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.05)
     
@@ -26,6 +30,13 @@ class Player : GameObject {
         node.name = "PLAYER"
         node.zPosition = 10
         self.canJump = true
+        
+        self.motion = CMMotionManager()
+        self.motion.startDeviceMotionUpdates()
+    }
+    
+    deinit {
+        self.motion.stopDeviceMotionUpdates()
     }
     
     override func resetPhysics() {
@@ -36,7 +47,7 @@ class Player : GameObject {
         node.physicsBody?.restitution = 0.5
         node.physicsBody?.friction = 0.5
         node.physicsBody?.angularDamping = 0
-        node.physicsBody?.linearDamping = 3
+        node.physicsBody?.linearDamping = 4.0
         
         node.physicsBody?.contactTestBitMask = 0b00000000
         node.physicsBody?.categoryBitMask =    0b00000000
@@ -54,7 +65,6 @@ class Player : GameObject {
             timeSinceLastJump = CACurrentMediaTime()
             self.disableJumping()
         }
-        
     }
     
     func enableJumping() {
@@ -73,6 +83,10 @@ class Player : GameObject {
         return self.node.position.y >= UIScreen.main.bounds.height
     }
     
+    func isBelowScreen() -> Bool {
+        return self.node.position.y <= -20
+    }
+    
     func isTouching(_ node : SKNode) -> Bool{
         return self.node.intersects(node)
     }
@@ -81,7 +95,62 @@ class Player : GameObject {
         self.node.position = Player.DEFAULT_POSITION
     }
     
-    func die() {
+    private func handleJumps(scene : GameScene) {
         
+        if self.isFalling(){
+            self.enableJumping()
+        } else { // player is rising
+            self.disableJumping()
+        }
+        
+        for node in scene.children {
+            if node.name == "PLATFORM" {
+                if self.isTouching(node) {
+                    self.jump()
+                }
+            }
+        }
+    }
+    
+    private func handleControls() {
+        if let data = motion.deviceMotion {
+            let y = data.attitude.roll
+            self.node.physicsBody?.applyForce(CGVector(dx: y * Player.DRIFT, dy:0))
+        }
+    }
+    
+    private func handleWins(scene : GameScene) {
+        if self.isAboveScreen() {
+            self.resetPosition()
+            scene.resetScene()
+        }
+    }
+    
+    private func handleTeleports(scene : GameScene) {
+        if self.node.position.x <= 0 {
+            self.node.position.x = scene.size.width
+        }
+        
+        else if self.node.position.x >= scene.size.width {
+            self.node.position.x = 0
+        }
+    }
+    
+    private func handleDeath(scene : GameScene) {
+        if self.node.position.y <= -20 && !isRespawning {
+            isRespawning = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { // Change `2.0` to the desired number of seconds.
+                self.resetPosition()
+                self.isRespawning = false
+            }
+        }
+    }
+    
+    func update(scene : GameScene) {
+        self.handleDeath(scene : scene)
+        self.handleJumps(scene: scene)
+        self.handleControls()
+        self.handleWins(scene: scene)
+        self.handleTeleports(scene: scene)
     }
 }
