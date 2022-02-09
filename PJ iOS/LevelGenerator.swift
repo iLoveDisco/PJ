@@ -22,9 +22,15 @@ class LevelGenerator {
     let PLATFORM_PIXEL_SIZE = 2
     let NUM_PIXELS_TO_SKIP = 2
     func addEdgePlatformsToScene(_ scene : GameScene) {
-        var edgePoints = renderEdgePlatforms(100,200)
-        if edgePoints.count > 10000 {
-            edgePoints = renderEdgePlatforms(100, 100)
+        var thresh1 = 100.0
+        var thresh2 = 200.0
+        
+        var edgePoints = renderEdgePlatforms(thresh1,thresh2)
+        
+        
+        while edgePoints.count > 10000 {
+            thresh2 = thresh2 * 2
+            edgePoints = renderEdgePlatforms(thresh1, thresh2)
         }
         for point in edgePoints {
             scene.drawEdgePlatform(point)
