@@ -9,14 +9,16 @@ import SpriteKit
 
 let PLATFORM_Z_POS = 5.0
 class Platform : GameObject{
-    let node = SKSpriteNode(color: UIColor.green, size: CGSize())
+    let node = SKSpriteNode(color: UIColor.white, size: CGSize())
+    var animation : PlatformAnimation?
     
-    override init(_ pos : CGPoint, _ size: CGSize) {
+    init(_ pos : CGPoint, _ size: CGSize, animation : PlatformAnimation) {
         super.init(pos, size)
-        node.position = super.pos;
-        node.size = size;
+        node.position = super.pos
+        node.size = size
         node.zPosition = PLATFORM_Z_POS
         node.name = "PLATFORM"
+        self.animation = animation
     }
     
     override func resetPhysics() {
@@ -42,5 +44,15 @@ class Platform : GameObject{
     
     func fadeOut(time : Int) {
         self.node.run(SKAction.fadeOut(withDuration: 2.0))
+    }
+    
+    func flash(scene : GameScene, flashCount : Int) {
+        if flashCount == 0 {
+            return;
+        }
+        
+        if let animation = self.animation {
+            animation.animate(self)
+        }
     }
 }

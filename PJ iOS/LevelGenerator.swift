@@ -19,7 +19,7 @@ class LevelGenerator {
         scene.addChild(background);
     }
     
-    let PLATFORM_PIXEL_SIZE = 1
+    let PLATFORM_PIXEL_SIZE = 2
     let NUM_PIXELS_TO_SKIP = 2
     func addEdgePlatformsToScene(_ scene : GameScene) {
         var edgePoints = renderEdgePlatforms(100,200)
@@ -133,9 +133,5 @@ class LevelGenerator {
         let player = Player(Player.DEFAULT_POSITION, Player.SPRITE_SIZE)
         player.draw(scene)
         return player
-    }
-    
-    func resetScene(_ scene : GameScene) {
-        scene.removeAllChildren()
     }
 }

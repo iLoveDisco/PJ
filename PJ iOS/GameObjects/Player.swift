@@ -86,11 +86,7 @@ class Player : GameObject {
     func isBelowScreen() -> Bool {
         return self.node.position.y <= -20
     }
-    
-    func isTouching(_ node : SKNode) -> Bool{
-        return self.node.intersects(node)
-    }
-    
+ 
     func resetPosition() {
         self.node.position = Player.DEFAULT_POSITION
     }
@@ -103,11 +99,13 @@ class Player : GameObject {
             self.disableJumping()
         }
         
-        for node in scene.children {
-            if node.name == "PLATFORM" {
-                if self.isTouching(node) {
-                    self.jump()
+        for platform in scene.platforms {
+            if platform.isTouching(self.node) {
+                if self.canJump {
+                    platform.flash(scene: scene, flashCount: 5)
                 }
+                
+                self.jump()
             }
         }
     }

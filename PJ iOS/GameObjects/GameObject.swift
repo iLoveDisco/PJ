@@ -30,4 +30,9 @@ class GameObject {
         let node = getNode()
         scene.addChild(node)
     }
+    
+    func isTouching(_ node : SKNode) -> Bool{
+        let myNode = self.getNode()
+        return myNode.intersects(node)
+    }
 }
