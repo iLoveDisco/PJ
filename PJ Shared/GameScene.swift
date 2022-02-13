@@ -18,19 +18,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let ADD_PLAYER_AFTER_DELAY = 2.0
     
     var player : Player?
-    var platforms : [Platform] = []
+    var edgePlatforms : [Platform] = []
+    var extraPlatforms : [Platform] = []
     
     override func didMove(to view: SKView) {
-        view.showsPhysics = false
-        self.speed = 2.0
-        
-        self.physicsWorld.gravity = CGVector(dx:0,dy:-8)
+        self.physicsWorld.gravity = CGVector(dx:0,dy:-4)
         self.motion = CMMotionManager()
         self.motion.startDeviceMotionUpdates()
         
         physicsWorld.contactDelegate = self
         self.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        platforms = []
         self.resetScene()
     }
     
@@ -60,33 +57,47 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let size = CGSize(width: 40, height: 5)
         let platform = Platform(pos, size, animation: ExtraPlatformAnimation())
         platform.draw(self)
-        self.platforms.append(platform)
+        self.extraPlatforms.append(platform)
     }
     
-    let PLATFORM_PIXEL_SIZE = 1
+    let PLATFORM_PIXEL_SIZE = 2
     func drawEdgePlatform(_ pos : CGPoint) {
         let size = CGSize(width: PLATFORM_PIXEL_SIZE, height: PLATFORM_PIXEL_SIZE)
         
         let platform = Platform(pos, size, animation: EdgePlatformAnimation(self))
-        
+        platform.hide()
         platform.draw(self)
-        self.platforms.append(platform)
-        
-        platform.fadeOut(time: 3)
+        self.edgePlatforms.append(platform)
+        platform.fadeOut(time: 0.01) {
+            platform.show()
+            platform.doLoadingAnimation()
+        }
     }
     
     func resetScene() {
         self.removeAllChildren()
         
-        self.platforms = []
+        self.edgePlatforms = []
+        self.extraPlatforms = []
         
-        lg.addImageToScene(self)
+        lg.loadImageToScene(self)
+        lg.addEdgePlatformsToScene(self)
+        lg.addExtraPlatformsToScene(self)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { // Change `2.0` to the desired number of seconds.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { // Change `2.0` to the desired number of seconds.
             self.player = self.lg.addPlayerToScene(self)
         }
         
-        lg.addEdgePlatformsToScene(self)
-        lg.addExtraPlatformsToScene(self)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { // Change `2.0` to the desired number of seconds.
+            
+            let background = Background(image: self.lg.levelImage!, pos: CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2), size: self.size)
+            
+            background.draw(self)
+            background.fadeOut(time: 0.01) {
+                background.show()
+                background.fadeIn(time: 0.2)
+            }
+            
+        }
     }
 }

@@ -35,4 +35,47 @@ class GameObject {
         let myNode = self.getNode()
         return myNode.intersects(node)
     }
+    
+    func distanceFrom(_ obj : GameObject) -> CGFloat {
+        let x1 = self.getNode().position.x
+        let y1 = self.getNode().position.y
+        
+        let x2 = obj.getNode().position.x
+        let y2 = obj.getNode().position.y
+        
+        return sqrt(pow(x1 - x2,2) + pow(y1 - y2,2))
+    }
+    
+    func fadeOut(time : Double, _ onComplete : @escaping ()->Void) {
+        self.getNode().run(SKAction.fadeOut(withDuration: time)) {
+            onComplete()
+        }
+    }
+    
+    func fadeOut(time : Double) {
+        self.fadeOut(time: time) {
+            // do nothing
+        }
+    }
+    
+    func fadeIn(time : Double,  _ onComplete : @escaping ()->Void) {
+        self.getNode().run(SKAction.fadeIn(withDuration: time)) {
+            onComplete()
+        }
+    }
+    
+    func fadeIn(time : Double) {
+        self.fadeIn(time: time) {
+            // do nothing
+        }
+    }
+    
+    func hide() {
+        self.getNode().isHidden = true
+    }
+    
+    func show() {
+        self.getNode().isHidden = false
+    }
+    
 }

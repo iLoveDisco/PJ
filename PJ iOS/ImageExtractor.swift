@@ -34,7 +34,7 @@ class ImageExtractor {
         self.loadAllPhotoRefs()
         if let allPhotos = self.allPhotos {
             let randomIdx = Int.random(in: 0...allPhotos.count - 1)
-            let asset = allPhotos[ImageExtractor.idx]
+            let asset = allPhotos[randomIdx]
             print("Using image: \(allPhotos.count - ImageExtractor.idx) of \(allPhotos.count). Photo date: \(asset.creationDate!) (width,height) : (\(asset.pixelWidth),\(asset.pixelHeight))")
             
             ImageExtractor.idx = ImageExtractor.idx - 1

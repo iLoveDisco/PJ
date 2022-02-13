@@ -22,6 +22,11 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         self.startGame()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+    }
 
     override var shouldAutorotate: Bool {
         return true
@@ -45,7 +50,6 @@ class GameViewController: UIViewController {
         let scene = GameScene()
         
         skView.presentScene(scene)
-        
         skView.ignoresSiblingOrder = true
         skView.showsFPS = true
         skView.showsNodeCount = true

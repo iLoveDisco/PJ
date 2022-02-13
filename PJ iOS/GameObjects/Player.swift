@@ -17,10 +17,10 @@ class Player : GameObject {
     var timeSinceLastJump : Double = 0
     var isRespawning = false
     
-    static let SPRITE_SIZE = CGSize(width: 20, height: 20)
+    static let SPRITE_SIZE = CGSize(width: 20, height: 30)
     static let BODY_SIZE = SPRITE_SIZE
     static let DRIFT : Double = 25
-    static let JUMP_POWER = 15
+    static let JUMP_POWER = 20
     static let DEFAULT_POSITION = CGPoint(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.05)
     
     override init(_ pos: CGPoint, _ size: CGSize) {
@@ -47,7 +47,7 @@ class Player : GameObject {
         node.physicsBody?.restitution = 0.5
         node.physicsBody?.friction = 0.5
         node.physicsBody?.angularDamping = 0
-        node.physicsBody?.linearDamping = 4.0
+        node.physicsBody?.linearDamping = 3.0
         
         node.physicsBody?.contactTestBitMask = 0b00000000
         node.physicsBody?.categoryBitMask =    0b00000000
@@ -99,10 +99,14 @@ class Player : GameObject {
             self.disableJumping()
         }
         
-        for platform in scene.platforms {
+        var platforms : [Platform] = []
+        platforms.append(contentsOf: scene.edgePlatforms)
+        platforms.append(contentsOf: scene.extraPlatforms)
+        
+        for platform in platforms {
             if platform.isTouching(self.node) {
                 if self.canJump {
-                    platform.flash(scene: scene, flashCount: 5)
+                    platform.flash()
                 }
                 
                 self.jump()

@@ -42,17 +42,15 @@ class Platform : GameObject{
         return node
     }
     
-    func fadeOut(time : Int) {
-        self.node.run(SKAction.fadeOut(withDuration: 2.0))
+    func flash() {
+        if let animation = self.animation {
+            animation.animateOnPlayerJump(self)
+        }
     }
     
-    func flash(scene : GameScene, flashCount : Int) {
-        if flashCount == 0 {
-            return;
-        }
-        
-        if let animation = self.animation {
-            animation.animate(self)
+    func doLoadingAnimation() {
+        if let animation = animation {
+            animation.animateOnLoad(self)
         }
     }
 }

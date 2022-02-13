@@ -11,16 +11,12 @@ import SpriteKit
 class LevelGenerator {
     var levelImage : UIImage?
     
-    func addImageToScene(_ scene: GameScene) {
+    func loadImageToScene(_ scene: GameScene) {
         let imageExtractor = ImageExtractor()
         self.levelImage = imageExtractor.getRandomPhoto()
-
-        let background = self.createBackground(scene)
-        scene.addChild(background);
     }
     
-    let PLATFORM_PIXEL_SIZE = 2
-    let NUM_PIXELS_TO_SKIP = 2
+    let NUM_PIXELS_TO_SKIP = 5
     func addEdgePlatformsToScene(_ scene : GameScene) {
         var thresh1 = 100.0
         var thresh2 = 200.0
@@ -79,35 +75,26 @@ class LevelGenerator {
         }
     }
     
-    private func createBackground(_ scene: GameScene) -> SKNode{
-        let levelTexture = SKTexture(image: levelImage!)
-        let background = SKSpriteNode(texture: levelTexture)
-        
-        background.name = "IMAGE"
-        
-        background.zPosition = 1
-        background.position = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
-        background.size = scene.size
-        
-        background.physicsBody?.collisionBitMask = 0b0010
-        background.physicsBody?.isDynamic = false
-        background.physicsBody?.affectedByGravity = false
-        return background
-    }
-    
     private func renderEdgePlatforms(_ thresh1 : Double, _ thresh2: Double) -> [CGPoint]{
         let cannyLevelImage = OpenCVWrapper.toCanny(levelImage!,thresh1,thresh2)
         let proc = ImageProcessor(img: cannyLevelImage.cgImage!)
         var edgeLocations : [CGPoint] = []
-        for x in stride(from: 0, to: proc.width - 1, by: NUM_PIXELS_TO_SKIP) {
-            for y in stride(from: 0, to: proc.height - 1, by: NUM_PIXELS_TO_SKIP) {
-                
+        
+        var x = 0
+        while x < proc.width {
+            
+            var y = 0
+            while y < proc.height {
+
                 let color = proc.color_at(x: x, y: y)
                 let colorVal = color.cgColor.components![0]
                 if (colorVal > 0.0) {
                     edgeLocations.append(CGPoint(x: CGFloat(x), y: UIScreen.main.bounds.height - CGFloat(y)))
                 }
+
+                y = y + Int.random(in: 1...NUM_PIXELS_TO_SKIP)
             }
+            x = x + Int.random(in: 1...NUM_PIXELS_TO_SKIP)
         }
         proc.freeImageMemory()
         return edgeLocations
