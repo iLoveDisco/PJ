@@ -12,6 +12,7 @@ import CoreMotion
 class Player : GameObject {
     let node = SKSpriteNode(imageNamed: "player")
     var motion : CMMotionManager!
+    var isDead : Bool = false
     
     var canJump : Bool = true
     var timeSinceLastJump : Double = 0
@@ -30,6 +31,7 @@ class Player : GameObject {
         node.name = "PLAYER"
         node.zPosition = 10
         self.canJump = true
+        self.isDead = false
         
         self.motion = CMMotionManager()
         self.motion.startDeviceMotionUpdates()
@@ -65,6 +67,12 @@ class Player : GameObject {
             timeSinceLastJump = CACurrentMediaTime()
             self.disableJumping()
         }
+    }
+    
+    func die() {
+        isDead = true
+        let direction = CGVector(dx: 0, dy: -1 * Player.JUMP_POWER)
+        self.node.physicsBody?.applyImpulse(direction)
     }
     
     func enableJumping() {
@@ -105,7 +113,7 @@ class Player : GameObject {
         
         for platform in platforms {
             if platform.isTouching(self.node) {
-                if self.canJump {
+                if self.canJump && !self.isDead{
                     platform.flash()
                 }
                 

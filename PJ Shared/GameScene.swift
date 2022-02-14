@@ -74,6 +74,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func drawMonster(_ pos : CGPoint) {
+        let monster = Monster(pos, CGSize(width: 60, height: 60))
+        monster.draw(self)
+    }
+    
+    func zoneHasPlatforms(xStart : CGFloat, yStart : CGFloat) -> Bool{
+        var xStart = xStart
+        if xStart < 0 {
+            xStart = self.size.width + xStart
+        }
+        
+        let xEnd = xStart + LevelGenerator.X_ZONE
+        let yEnd = yStart + LevelGenerator.Y_ZONE
+        
+        var platforms : [Platform] = []
+        platforms.append(contentsOf: self.edgePlatforms)
+        platforms.append(contentsOf: self.extraPlatforms)
+        
+        for platform in platforms {
+            let node = platform.node
+            let pos = node.position
+            if xStart < pos.x && pos.x < xEnd {
+                if yStart < pos.y && pos.y < yEnd {
+                    return true
+                }
+            }
+        }
+        
+        return false
+    }
+    
     func resetScene() {
         self.removeAllChildren()
         
@@ -83,6 +114,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         lg.loadImageToScene(self)
         lg.addEdgePlatformsToScene(self)
         lg.addExtraPlatformsToScene(self)
+        lg.addMonstersToScene(self)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { // Change `2.0` to the desired number of seconds.
             self.player = self.lg.addPlayerToScene(self)

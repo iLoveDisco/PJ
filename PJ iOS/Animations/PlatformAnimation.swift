@@ -34,7 +34,7 @@ class EdgePlatformAnimation : PlatformAnimation {
         var prevRight = closestPlatforms[1]
         
         for i in stride(from: 3, to: 20, by: 2) {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05 * Double(i)) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.025 * Double(i)) {
                 
                 self.fadeInAndOut(closestPlatforms[i])
                 self.fadeInAndOut(closestPlatforms[i + 1])
@@ -54,7 +54,7 @@ class EdgePlatformAnimation : PlatformAnimation {
     }
     
     private func fadeInAndOut(_ platform : Platform) {
-        platform.fadeIn(time: 0.1) {
+        platform.fadeIn(time: 0.05) {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 platform.fadeOut(time: 0.1)
             }
