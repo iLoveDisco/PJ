@@ -20,25 +20,24 @@ class LevelGenerator {
     
     let NUM_PIXELS_TO_SKIP = 5
     func addEdgePlatformsToScene(_ scene : GameScene) {
-        var thresh1 = 100.0
+        let thresh1 = 100.0
         var thresh2 = 200.0
         
         var edgePoints = renderEdgePlatforms(thresh1,thresh2)
         
-        while edgePoints.count > 10000 {
-            thresh2 = thresh2 * 2
+        let totalNumPixels = scene.size.width * scene.size.height
+        
+        // reduce number of edges
+        let edgePointTarget = Int(0.01 * totalNumPixels)
+        print("reducing num edges to \(edgePointTarget)")
+        repeat {
+            thresh2 = thresh2 + 100
             edgePoints = renderEdgePlatforms(thresh1, thresh2)
-        }
-        for point in edgePoints {
-            scene.drawEdgePlatform(point)
-        }
+        } while(edgePoints.count > edgePointTarget)
+        print("done reducing. num reductions: \(thresh2 / 100 - 2.0)")
     }
     
     func addExtraPlatformsToScene(_ scene : GameScene) {
-        let edgePlatforms = scene.children.filter { platform in
-            platform.name == "PLATFORM"
-        }
-
         var zonesWithPlatforms : [CGFloat] = []
         var minimumPathZone = scene.size.width / 2
         
@@ -118,7 +117,7 @@ class LevelGenerator {
             let numMonstersToAdd = Int.random(in: 1...3)
             
             for _ in 1...numMonstersToAdd {
-                let spotToAddMonster : CGPoint = possibleSpotsToAddMonsters[Int.random(in: 0...possibleSpotsToAddMonsters.count)]
+                let spotToAddMonster : CGPoint = possibleSpotsToAddMonsters[Int.random(in: 0..<possibleSpotsToAddMonsters.count)]
                 scene.drawMonster(spotToAddMonster)
             }
         }
@@ -128,5 +127,16 @@ class LevelGenerator {
         let player = Player(Player.DEFAULT_POSITION, Player.SPRITE_SIZE)
         player.draw(scene)
         return player
+    }
+}
+
+extension UIColor {
+    static func genColor(_ value : Double) -> UIColor {
+        return UIColor(
+            red: value,
+            green: 0.5,
+            blue: 0.5,
+            alpha: 1.0
+        )
     }
 }

@@ -12,6 +12,7 @@
 		F040BB1A27B88506000CD6AF /* BackgroundAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F040BB1927B88506000CD6AF /* BackgroundAnimation.swift */; };
 		F084C15827AE3D360042086C /* EventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F084C15727AE3D360042086C /* EventHandler.swift */; };
 		F0DB959E27B348C900C8887B /* PlatformAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DB959D27B348C900C8887B /* PlatformAnimation.swift */; };
+		F0F02E7727C3267800C0C55D /* KMediods.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F02E7627C3267800C0C55D /* KMediods.swift */; };
 		F0FFB16C27855EA60014A311 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FFB16B27855EA60014A311 /* AppDelegate.swift */; };
 		F0FFB16E27855EA60014A311 /* StartMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FFB16D27855EA60014A311 /* StartMenuViewController.swift */; };
 		F0FFB17127855EA60014A311 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F0FFB16F27855EA60014A311 /* Main.storyboard */; };
@@ -38,11 +39,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F020C9C227BF341200227E5F /* KMediods.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = KMediods.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		F035353F279BD06500021DAE /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		F040BB1727B87DBF000CD6AF /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		F040BB1927B88506000CD6AF /* BackgroundAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundAnimation.swift; sourceTree = "<group>"; };
 		F084C15727AE3D360042086C /* EventHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventHandler.swift; sourceTree = "<group>"; };
 		F0DB959D27B348C900C8887B /* PlatformAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformAnimation.swift; sourceTree = "<group>"; };
+		F0F02E7627C3267800C0C55D /* KMediods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMediods.swift; sourceTree = "<group>"; };
 		F0FFB16027855EA50014A311 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		F0FFB16127855EA50014A311 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		F0FFB16227855EA50014A311 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -143,6 +146,8 @@
 				F0FFB16F27855EA60014A311 /* Main.storyboard */,
 				F0FFB17227855EA60014A311 /* LaunchScreen.storyboard */,
 				F035353F279BD06500021DAE /* GameViewController.swift */,
+				F020C9C227BF341200227E5F /* KMediods.playground */,
+				F0F02E7627C3267800C0C55D /* KMediods.swift */,
 			);
 			path = "PJ iOS";
 			sourceTree = "<group>";
@@ -272,6 +277,7 @@
 				F0FFB18827855FFE0014A311 /* ImageProcessor.swift in Sources */,
 				F0FFB16C27855EA60014A311 /* AppDelegate.swift in Sources */,
 				F0FFB1932785607D0014A311 /* Player.swift in Sources */,
+				F0F02E7727C3267800C0C55D /* KMediods.swift in Sources */,
 				F0FFB1902785607D0014A311 /* Monster.swift in Sources */,
 				F040BB1827B87DBF000CD6AF /* Background.swift in Sources */,
 			);
@@ -421,7 +427,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R8GHK8844T;
-				EXCLUDED_ARCHS = arm64;
+				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = "/Users/comfy/Documents/Projects/ThirdPartyFrameworks/**";
 				GCC_PREFIX_HEADER = "/Users/comfy/Documents/Projects/PJ/PJ iOS/OpenCV/PrefixHeader.pch";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -430,6 +436,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -458,7 +465,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R8GHK8844T;
-				EXCLUDED_ARCHS = arm64;
+				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = "/Users/comfy/Documents/Projects/ThirdPartyFrameworks/**";
 				GCC_PREFIX_HEADER = "/Users/comfy/Documents/Projects/PJ/PJ iOS/OpenCV/PrefixHeader.pch";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -469,6 +476,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;

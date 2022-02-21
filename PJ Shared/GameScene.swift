@@ -61,10 +61,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     let PLATFORM_PIXEL_SIZE = 2
-    func drawEdgePlatform(_ pos : CGPoint) {
-        let size = CGSize(width: PLATFORM_PIXEL_SIZE, height: PLATFORM_PIXEL_SIZE)
+    func drawEdgePlatform(_ pos : CGPoint, _ color : UIColor) {
+        let size = CGSize(width: PLATFORM_PIXEL_SIZE, height: Int.random(in: 1...PLATFORM_PIXEL_SIZE))
         
         let platform = Platform(pos, size, animation: EdgePlatformAnimation(self))
+        
+        platform.getNode().color = color
         platform.hide()
         platform.draw(self)
         self.edgePlatforms.append(platform)

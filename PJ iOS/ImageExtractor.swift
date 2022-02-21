@@ -11,7 +11,7 @@ import Photos
 class ImageExtractor {
     var allPhotos : [PHAsset]? = []
     
-    static var WHERE_WE_LEFT_OFF = 1
+    static var WHERE_WE_LEFT_OFF = 3
     static var idx = 0
     
     func loadAllPhotoRefs() {
@@ -50,7 +50,6 @@ class ImageExtractor {
             
             manager.requestImage(for: asset, targetSize: imageSize, contentMode: .aspectFit, options: option, resultHandler: {(result, info)->Void in
                 output = result
-                print("requestingImage")
             })
             
             if output == nil {
