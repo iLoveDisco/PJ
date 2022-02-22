@@ -20,6 +20,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var player : Player?
     var edgePlatforms : [Platform] = []
     var extraPlatforms : [Platform] = []
+    var monsters : [Monster] = []
     
     override func didMove(to view: SKView) {
         self.physicsWorld.gravity = CGVector(dx:0,dy:-4)
@@ -56,28 +57,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let size = CGSize(width: 40, height: 5)
         let platform = Platform(pos, size, animation: ExtraPlatformAnimation())
-        platform.draw(self)
+        platform.doLoadingAnimation(scene: self)
         self.extraPlatforms.append(platform)
     }
     
     let PLATFORM_PIXEL_SIZE = 2
-    func drawEdgePlatform(_ pos : CGPoint, _ color : UIColor) {
+    func drawEdgePlatform(_ pos : CGPoint) {
         let size = CGSize(width: PLATFORM_PIXEL_SIZE, height: Int.random(in: 1...PLATFORM_PIXEL_SIZE))
         
         let platform = Platform(pos, size, animation: EdgePlatformAnimation(self))
         
-        platform.getNode().color = color
-        platform.hide()
-        platform.draw(self)
+        platform.doLoadingAnimation(scene: self)
         self.edgePlatforms.append(platform)
-        platform.fadeOut(time: 0.01) {
-            platform.show()
-            platform.doLoadingAnimation()
-        }
     }
     
     func drawMonster(_ pos : CGPoint) {
-        let monster = Monster(pos, CGSize(width: 60, height: 60))
+        let monster = Monster(pos, CGSize(width: LevelGenerator.X_ZONE / 2, height: LevelGenerator.Y_ZONE / 2))
+        
+        self.monsters.append(monster)
         monster.draw(self)
     }
     
@@ -112,18 +109,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.edgePlatforms = []
         self.extraPlatforms = []
+        self.monsters = []
         
         lg.loadImageToScene(self)
         lg.addEdgePlatformsToScene(self)
         lg.addExtraPlatformsToScene(self)
         lg.addMonstersToScene(self)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { // Change `2.0` to the desired number of seconds.
+        // spawn player
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             self.player = self.lg.addPlayerToScene(self)
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { // Change `2.0` to the desired number of seconds.
-            
+        // spawn background
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             let background = Background(image: self.lg.levelImage!, pos: CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2), size: self.size)
             
             background.draw(self)

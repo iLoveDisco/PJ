@@ -25,13 +25,13 @@ class Platform : GameObject{
         node.physicsBody = SKPhysicsBody(rectangleOf: size)
         node.physicsBody?.affectedByGravity = false
         node.physicsBody?.allowsRotation = false
-        node.physicsBody?.isDynamic = false
+        node.physicsBody?.isDynamic = true
         
         node.physicsBody?.allowsRotation = false
         node.physicsBody?.restitution = 0.5
         node.physicsBody?.friction = 0.5
         node.physicsBody?.angularDamping = 0
-        node.physicsBody?.linearDamping = 3
+        node.physicsBody?.linearDamping = 10
         
         node.physicsBody?.contactTestBitMask = 0b00000000
         node.physicsBody?.categoryBitMask =    0b00000000
@@ -48,9 +48,23 @@ class Platform : GameObject{
         }
     }
     
-    func doLoadingAnimation() {
-        if let animation = animation {
-            animation.animateOnLoad(self)
+    func nudge() {
+        let direction = CGVector(dx: 0, dy: -1)
+        
+        let originalPos = self.node.position
+        
+        self.node.physicsBody?.applyImpulse(direction)
+    }
+    
+    func doLoadingAnimation(scene : GameScene) {
+        
+        self.hide()
+        self.draw(scene)
+        self.fadeOut(time: 0.01) {
+            self.show()
+            if let animation = self.animation {
+                animation.animateOnLoad(self)
+            }
         }
     }
 }

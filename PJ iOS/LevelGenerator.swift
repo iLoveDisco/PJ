@@ -35,6 +35,10 @@ class LevelGenerator {
             edgePoints = renderEdgePlatforms(thresh1, thresh2)
         } while(edgePoints.count > edgePointTarget)
         print("done reducing. num reductions: \(thresh2 / 100 - 2.0)")
+    
+        for point in edgePoints {
+            scene.drawEdgePlatform(point)
+        }
     }
     
     func addExtraPlatformsToScene(_ scene : GameScene) {
@@ -114,7 +118,7 @@ class LevelGenerator {
         if possibleSpotsToAddMonsters.count == 0 {
             return
         } else {
-            let numMonstersToAdd = Int.random(in: 1...3)
+            let numMonstersToAdd = Int.random(in: 1...2)
             
             for _ in 1...numMonstersToAdd {
                 let spotToAddMonster : CGPoint = possibleSpotsToAddMonsters[Int.random(in: 0..<possibleSpotsToAddMonsters.count)]

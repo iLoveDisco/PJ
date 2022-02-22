@@ -70,9 +70,13 @@ class Player : GameObject {
     }
     
     func die() {
+        
         isDead = true
+        self.disableJumping()
+        
         let direction = CGVector(dx: 0, dy: -1 * Player.JUMP_POWER)
         self.node.physicsBody?.applyImpulse(direction)
+        
     }
     
     func enableJumping() {
@@ -100,6 +104,10 @@ class Player : GameObject {
     }
     
     private func handleJumps(scene : GameScene) {
+        
+        if self.isDead {
+            return
+        }
         
         if self.isFalling(){
             self.enableJumping()
@@ -154,6 +162,10 @@ class Player : GameObject {
                 self.isRespawning = false
             }
         }
+    }
+    
+    private func handleMonsters(scene : GameScene) {
+        
     }
     
     func update(scene : GameScene) {

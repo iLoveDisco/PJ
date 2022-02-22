@@ -56,10 +56,20 @@ class EdgePlatformAnimation : PlatformAnimation {
 
 class ExtraPlatformAnimation : PlatformAnimation {
     func animateOnPlayerJump(_ platform : Platform) {
-        // does nothing for now
+        let originalPos = CGPoint(x: platform.pos.x, y: platform.pos.y)
+        
+        let direction = CGVector(dx: 0, dy: -0.5)
+        platform.node.physicsBody?.applyImpulse(direction)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+
+            platform.getNode().run(SKAction.move(to: originalPos, duration: 0.1))
+        }
     }
     
     func animateOnLoad(_ platform: Platform) {
-        // does nothing for now
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
+            platform.fadeIn(time: 0.2)
+        }
     }
 }
