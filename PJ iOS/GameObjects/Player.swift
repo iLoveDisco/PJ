@@ -70,13 +70,14 @@ class Player : GameObject {
     }
     
     func die() {
-        
-        isDead = true
+        self.isDead = true
+        self.node.physicsBody?.isDynamic = false
         self.disableJumping()
         
-        let direction = CGVector(dx: 0, dy: -1 * Player.JUMP_POWER)
-        self.node.physicsBody?.applyImpulse(direction)
-        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.node.physicsBody?.isDynamic = true
+            self.node.position.y = -50
+        }
     }
     
     func enableJumping() {
@@ -145,12 +146,14 @@ class Player : GameObject {
     }
     
     private func handleTeleports(scene : GameScene) {
-        if self.node.position.x <= 0 {
-            self.node.position.x = scene.size.width
-        }
-        
-        else if self.node.position.x >= scene.size.width {
-            self.node.position.x = 0
+        if !self.isDead {
+            if self.node.position.x <= 0 {
+                self.node.position.x = scene.size.width
+            }
+            
+            else if self.node.position.x >= scene.size.width {
+                self.node.position.x = 0
+            }
         }
     }
     
@@ -159,13 +162,33 @@ class Player : GameObject {
             isRespawning = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { // Change `2.0` to the desired number of seconds.
                 self.resetPosition()
+                self.isDead = false
                 self.isRespawning = false
             }
         }
     }
     
     private func handleMonsters(scene : GameScene) {
-        
+        var shouldIgnore = false
+        for monster in scene.monsters {
+            if self.isTouching(monster.getNode()) && !shouldIgnore {
+                if (self.getNode().physicsBody?.velocity.dy)! > 0 && !monster.isDead{
+                    self.die()
+                } else {
+                    if !self.isDead {
+                        print("monster died")
+                        monster.die()
+                        self.jump()
+                    }
+                }
+                
+                shouldIgnore = true
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    shouldIgnore = false
+                }
+            }
+        }
     }
     
     func update(scene : GameScene) {
@@ -174,5 +197,6 @@ class Player : GameObject {
         self.handleControls()
         self.handleWins(scene: scene)
         self.handleTeleports(scene: scene)
+        self.handleMonsters(scene: scene)
     }
 }

@@ -18,6 +18,12 @@ class LevelGenerator {
         self.levelImage = imageExtractor.getRandomPhoto()
     }
     
+    func loadImageToScene(image : UIImage) {
+        
+        let imageExtractor = ImageExtractor()
+        self.levelImage = imageExtractor.processPhoto(image)
+    }
+    
     let NUM_PIXELS_TO_SKIP = 5
     func addEdgePlatformsToScene(_ scene : GameScene) {
         let thresh1 = 100.0
@@ -107,7 +113,7 @@ class LevelGenerator {
     
     func addMonstersToScene(_ scene : GameScene) {
         var possibleSpotsToAddMonsters : [CGPoint] = []
-        for x_start in stride(from: 0, to: scene.size.width, by: LevelGenerator.X_ZONE) {
+        for x_start in stride(from: 0 + LevelGenerator.X_ZONE * 2, to: scene.size.width - LevelGenerator.X_ZONE * 2.0, by: LevelGenerator.X_ZONE) {
             for y_start in stride(from: scene.size.height / 2, to: scene.size.height * 0.8, by: LevelGenerator.Y_ZONE) {
                 if !scene.zoneHasPlatforms(xStart: x_start, yStart: y_start) {
                     possibleSpotsToAddMonsters.append(CGPoint(x: x_start + LevelGenerator.X_ZONE / 2, y: y_start + LevelGenerator.Y_ZONE / 2))
@@ -121,26 +127,18 @@ class LevelGenerator {
             let numMonstersToAdd = Int.random(in: 1...2)
             
             for _ in 1...numMonstersToAdd {
-                let spotToAddMonster : CGPoint = possibleSpotsToAddMonsters[Int.random(in: 0..<possibleSpotsToAddMonsters.count)]
+                if possibleSpotsToAddMonsters.count == 0 {
+                    return;
+                }
+                let spotToAddMonster : CGPoint = possibleSpotsToAddMonsters.remove(at: Int.random(in: 0..<possibleSpotsToAddMonsters.count))
                 scene.drawMonster(spotToAddMonster)
             }
         }
     }
 
-    func addPlayerToScene(_ scene : GameScene) -> Player {
+    func addPlayerToScene(_ scene : GameScene) {
         let player = Player(Player.DEFAULT_POSITION, Player.SPRITE_SIZE)
         player.draw(scene)
-        return player
-    }
-}
-
-extension UIColor {
-    static func genColor(_ value : Double) -> UIColor {
-        return UIColor(
-            red: value,
-            green: 0.5,
-            blue: 0.5,
-            alpha: 1.0
-        )
+        scene.player = player
     }
 }

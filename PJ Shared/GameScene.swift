@@ -22,6 +22,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var extraPlatforms : [Platform] = []
     var monsters : [Monster] = []
     
+    var sceneLoadStrategy : SceneLoadingStrategy = NormalSceneLoading()
+
     override func didMove(to view: SKView) {
         self.physicsWorld.gravity = CGVector(dx:0,dy:-4)
         self.motion = CMMotionManager()
@@ -72,7 +74,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func drawMonster(_ pos : CGPoint) {
-        let monster = Monster(pos, CGSize(width: LevelGenerator.X_ZONE / 2, height: LevelGenerator.Y_ZONE / 2))
+        let monster = Monster(pos, CGSize(width: LevelGenerator.X_ZONE * 1.2, height: LevelGenerator.Y_ZONE * 0.75))
         
         self.monsters.append(monster)
         monster.draw(self)
@@ -104,21 +106,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return false
     }
     
-    func resetScene() {
-        self.removeAllChildren()
-        
-        self.edgePlatforms = []
-        self.extraPlatforms = []
-        self.monsters = []
-        
+    func loadImage(image : UIImage) {
+        lg.loadImageToScene(image: image)
+    }
+    
+    func loadImage() {
         lg.loadImageToScene(self)
-        lg.addEdgePlatformsToScene(self)
-        lg.addExtraPlatformsToScene(self)
-        lg.addMonstersToScene(self)
+    }
+    
+    func loadGameObjects() {
+        self.loadEdgePlatforms()
+        self.loadExtraPlatforms()
+        self.loadMonsters()
         
         // spawn player
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            self.player = self.lg.addPlayerToScene(self)
+            self.loadPlayer()
         }
         
         // spawn background
@@ -132,5 +135,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
         }
+    }
+    
+    func loadEdgePlatforms() {
+        lg.addEdgePlatformsToScene(self)
+    }
+    
+    func loadExtraPlatforms() {
+        lg.addExtraPlatformsToScene(self)
+    }
+    
+    func loadMonsters() {
+        lg.addMonstersToScene(self)
+    }
+    
+    func loadPlayer() {
+        lg.addPlayerToScene(self)
+    }
+    
+    func resetScene() {
+        self.removeAllChildren()
+        self.edgePlatforms = []
+        self.extraPlatforms = []
+        self.monsters = []
+        
+        self.sceneLoadStrategy.setScene(scene: self)
     }
 }

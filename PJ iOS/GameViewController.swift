@@ -14,6 +14,8 @@ class GameViewController: UIViewController {
     
     @IBOutlet weak var imageViewOutput: UIImageView!
     
+    var isCameraMode = false
+    
     override func loadView() {
         self.view = SKView()
     }
@@ -21,6 +23,7 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.startGame()
+        print("Is camera mode on? \(isCameraMode)")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -48,6 +51,10 @@ class GameViewController: UIViewController {
         let skView = self.view as! SKView
       
         let scene = GameScene()
+        
+        if isCameraMode {
+            scene.sceneLoadStrategy = CameraSceneLoading(self)
+        }
         
         skView.presentScene(scene)
         skView.ignoresSiblingOrder = true

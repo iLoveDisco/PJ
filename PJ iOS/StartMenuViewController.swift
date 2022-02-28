@@ -64,7 +64,20 @@ class StartMenuViewController: UIViewController {
 
 class StartGameSegue : UIStoryboardSegue {
     override func perform() {
+
         if let navigationController = self.source.navigationController {
+            navigationController.setViewControllers([self.destination], animated: true)
+        }
+    }
+}
+
+class StartGameCameraModeSegue : UIStoryboardSegue {
+    override func perform() {
+        if let navigationController = self.source.navigationController {
+            
+            let view = self.destination as! GameViewController
+            
+            view.isCameraMode = true
             navigationController.setViewControllers([self.destination], animated: true)
         }
     }

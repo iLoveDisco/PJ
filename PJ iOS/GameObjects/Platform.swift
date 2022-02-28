@@ -48,16 +48,7 @@ class Platform : GameObject{
         }
     }
     
-    func nudge() {
-        let direction = CGVector(dx: 0, dy: -1)
-        
-        let originalPos = self.node.position
-        
-        self.node.physicsBody?.applyImpulse(direction)
-    }
-    
     func doLoadingAnimation(scene : GameScene) {
-        
         self.hide()
         self.draw(scene)
         self.fadeOut(time: 0.01) {

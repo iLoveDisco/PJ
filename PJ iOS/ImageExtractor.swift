@@ -28,6 +28,13 @@ class ImageExtractor {
         }
     }
     
+    func processPhoto(_ image : UIImage) -> UIImage {
+        let resizedImage = self.resizeImageToScreenHeight(image)
+        let croppedResizedImage = self.randomImageCrop(resizedImage)
+        
+        return croppedResizedImage
+    }
+    
     func getRandomPhoto() -> UIImage?{
         
         var output: UIImage?
@@ -57,11 +64,9 @@ class ImageExtractor {
             }
         }
         
-        let resizedImage = self.resizeImageToScreenHeight(output!)
-        let croppedResizedImage = self.randomImageCrop(resizedImage)
-        
-        return croppedResizedImage
+        return self.processPhoto(output!)
     }
+    
     
     func resizeImageToScreenHeight(_ image : UIImage) -> UIImage {
         let screenSize: CGRect = UIScreen.main.bounds
