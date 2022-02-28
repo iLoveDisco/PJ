@@ -48,8 +48,9 @@ class MyImagePickerController : UIImagePickerController {
         if !delegate.didCameraTakeImage {
             scene!.loadImage()
             scene!.loadGameObjects()
-            delegate.didCameraTakeImage = false
         }
+        
+        delegate.didCameraTakeImage = false
     }
 }
 
