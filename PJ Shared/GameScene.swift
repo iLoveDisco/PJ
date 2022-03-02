@@ -23,7 +23,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var monsters : [Monster] = []
     
     var sceneLoadStrategy : SceneLoadingStrategy = NormalSceneLoading()
-
+    
+    
+    var count = 0
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        
+        for touch in touches {
+            let location = touch.location(in: self)
+            let touchedNode = atPoint(location)
+            
+            if touchedNode.name == "PAUSE_BUTTON" {
+                print("Button pressed \(count)")
+                count = count + 1
+            }
+        }
+    }
+    
+    func loadPauseButton() {
+        let node = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 150, height: 150))
+        node.zPosition = 10
+        node.position = CGPoint(x: self.size.width - 50.0, y: self.size.height - 50)
+        node.name="PAUSE_BUTTON"
+        self.addChild(node)
+    }
+    
     override func didMove(to view: SKView) {
         self.physicsWorld.gravity = CGVector(dx:0,dy:-4)
         self.motion = CMMotionManager()
@@ -32,6 +56,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         self.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         self.resetScene()
+        
+        
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -118,6 +144,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.loadEdgePlatforms()
         self.loadExtraPlatforms()
         self.loadMonsters()
+        self.loadPauseButton()
         
         // spawn player
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
@@ -154,11 +181,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func resetScene() {
-        self.removeAllChildren()
-        self.edgePlatforms = []
-        self.extraPlatforms = []
-        self.monsters = []
-        
         self.sceneLoadStrategy.setScene(scene: self)
     }
 }
