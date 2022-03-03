@@ -32,19 +32,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for touch in touches {
             let location = touch.location(in: self)
             let touchedNode = atPoint(location)
-            
+        
             if touchedNode.name == "PAUSE_BUTTON" {
-                print("Button pressed \(count)")
-                count = count + 1
+                self.isPaused = true
+                self.loadPauseMenu()
             }
         }
     }
     
+    private func loadPauseMenu() {
+        
+        
+        
+    }
+    
     func loadPauseButton() {
-        let node = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 150, height: 150))
+        let node = SKSpriteNode(imageNamed: "pause")
         node.zPosition = 10
-        node.position = CGPoint(x: self.size.width - 50.0, y: self.size.height - 50)
+        node.position = CGPoint(x: self.size.width - 50.0, y: self.size.height - 100)
         node.name="PAUSE_BUTTON"
+        node.size = CGSize(width: 75 * 1.25, height: 100 * 1.25)
         self.addChild(node)
     }
     
@@ -85,6 +92,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let size = CGSize(width: 40, height: 5)
         let platform = Platform(pos, size, animation: ExtraPlatformAnimation())
+        
+        platform.node
         platform.doLoadingAnimation(scene: self)
         self.extraPlatforms.append(platform)
     }

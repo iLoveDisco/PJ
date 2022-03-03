@@ -9,7 +9,7 @@ import SpriteKit
 
 let PLATFORM_Z_POS = 5.0
 class Platform : GameObject{
-    let node = SKSpriteNode(color: UIColor.white, size: CGSize())
+    let node = SKSpriteNode(imageNamed: "platform")
     var animation : PlatformAnimation?
     
     init(_ pos : CGPoint, _ size: CGSize, animation : PlatformAnimation) {
