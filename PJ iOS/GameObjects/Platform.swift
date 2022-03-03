@@ -9,11 +9,16 @@ import SpriteKit
 
 let PLATFORM_Z_POS = 5.0
 class Platform : GameObject{
-    let node = SKSpriteNode(imageNamed: "platform")
+    var node = SKSpriteNode(imageNamed: "platform")
     var animation : PlatformAnimation?
     
     init(_ pos : CGPoint, _ size: CGSize, animation : PlatformAnimation) {
         super.init(pos, size)
+        
+        if size.width < 10 {
+            node = SKSpriteNode(color: UIColor.white, size: size)
+        }
+        
         node.position = super.pos
         node.size = size
         node.zPosition = PLATFORM_Z_POS

@@ -10,7 +10,7 @@ import SpriteKit
 import CoreMotion
 
 class Player : GameObject {
-    let node = SKSpriteNode(imageNamed: "player")
+    let node = SKSpriteNode(imageNamed: "astro_falling_left")
     var motion : CMMotionManager!
     var isDead : Bool = false
     
@@ -18,10 +18,10 @@ class Player : GameObject {
     var timeSinceLastJump : Double = 0
     var isRespawning = false
     
-    static let SPRITE_SIZE = CGSize(width: 20, height: 30)
+    static let SPRITE_SIZE = CGSize(width: 25, height: 25 * 1.2)
     static let BODY_SIZE = SPRITE_SIZE
     static let DRIFT : Double = 35
-    static let JUMP_POWER = 15
+    static let JUMP_POWER = 17
     static let DEFAULT_POSITION = CGPoint(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.05)
     
     override init(_ pos: CGPoint, _ size: CGSize) {
@@ -111,8 +111,24 @@ class Player : GameObject {
         }
         
         if self.isFalling(){
+            
+            if (self.node.physicsBody?.velocity.dy)! < -120 {
+                if (self.node.physicsBody?.velocity.dx)! < 0 {
+                    self.node.texture = SKTexture(imageNamed: "astro_falling_left")
+                } else {
+                    self.node.texture = SKTexture(imageNamed: "astro_falling_right")
+                }
+            }
+            
             self.enableJumping()
         } else { // player is rising
+            
+            if (self.node.physicsBody?.velocity.dx)! < 0 {
+                self.node.texture = SKTexture(imageNamed: "astro_rising_left")
+            } else {
+                self.node.texture = SKTexture(imageNamed: "astro_rising_right")
+            }
+            
             self.disableJumping()
         }
         

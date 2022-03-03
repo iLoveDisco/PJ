@@ -9,7 +9,7 @@ import Foundation
 import SpriteKit
 
 class Monster: GameObject {
-    let node = SKSpriteNode(color: UIColor.red, size: CGSize())
+    let node = SKSpriteNode(imageNamed: "space_ship\(Int.random(in: 1...3))")
     var isDead = false
     
     override init(_ pos : CGPoint, _ size: CGSize) {

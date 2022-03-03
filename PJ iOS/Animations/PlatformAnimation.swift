@@ -30,6 +30,11 @@ class EdgePlatformAnimation : PlatformAnimation {
             return
         }
         
+        if closestPlatforms.count > 1 {
+            self.fadeInAndOut(closestPlatforms[0])
+            self.fadeInAndOut(closestPlatforms[1])
+        }
+        
         for i in stride(from: 3, to: 20, by: 2) {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.025 * Double(i)) {
                 self.fadeInAndOut(closestPlatforms[i])

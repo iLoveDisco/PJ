@@ -27,8 +27,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var count = 0
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        
         for touch in touches {
             let location = touch.location(in: self)
             let touchedNode = atPoint(location)
@@ -52,19 +50,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         node.position = CGPoint(x: self.size.width - 50.0, y: self.size.height - 100)
         node.name="PAUSE_BUTTON"
         node.size = CGSize(width: 75 * 1.25, height: 100 * 1.25)
+        node.alpha = 0.7
         self.addChild(node)
     }
     
     override func didMove(to view: SKView) {
-        self.physicsWorld.gravity = CGVector(dx:0,dy:-4)
+        self.physicsWorld.gravity = CGVector(dx:0,dy:-3)
         self.motion = CMMotionManager()
         self.motion.startDeviceMotionUpdates()
         
         physicsWorld.contactDelegate = self
         self.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         self.resetScene()
-        
-        
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -154,7 +151,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.loadExtraPlatforms()
         self.loadMonsters()
         self.loadPauseButton()
-        
+        self.loadWallPaper()
         // spawn player
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             self.loadPlayer()
@@ -167,7 +164,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             background.draw(self)
             background.fadeOut(time: 0.01) {
                 background.show()
-                background.fadeIn(time: 0.2)
+                background.fadeIn(time: 0.5)
             }
             
         }
@@ -187,6 +184,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func loadPlayer() {
         lg.addPlayerToScene(self)
+    }
+    
+    func loadWallPaper() {
+        let node = SKSpriteNode(imageNamed: "background")
+        node.zPosition = 0
+        node.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
+        node.name="WALLPAPER"
+        node.size = self.size
+        node.alpha = 0.3
+        self.addChild(node)
     }
     
     func resetScene() {

@@ -51,7 +51,7 @@ class LevelGenerator {
         var zonesWithPlatforms : [CGFloat] = []
         var minimumPathZone = scene.size.width / 2
         
-        scene.drawExtraPlatform(CGPoint(x: minimumPathZone, y: 2.0))
+        scene.drawExtraPlatform(CGPoint(x: minimumPathZone, y: LevelGenerator.Y_ZONE * 0.25))
         
         for yStart in stride(from: LevelGenerator.Y_ZONE, to: scene.size.height - 1, by: LevelGenerator.Y_ZONE) {
             
