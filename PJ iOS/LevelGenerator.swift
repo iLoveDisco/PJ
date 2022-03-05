@@ -111,11 +111,11 @@ class LevelGenerator {
     }
     
     func addMonstersToScene(_ scene : GameScene) {
-        for yStart in stride(from: scene.size.height / 2, through: scene.size.height - 60, by: LevelGenerator.Y_ZONE) {
+        for yStart in stride(from: scene.size.height / 3, through: scene.size.height - 60, by: LevelGenerator.Y_ZONE) {
             
             let randomNumber = Int.random(in: 1 ... Int(scene.size.height / LevelGenerator.Y_ZONE / 2))
             
-            let luckyNumbers : [Int] = [1,2,3,4]
+            let luckyNumbers : [Int] = [1,2]
             if luckyNumbers.contains(randomNumber) {
                 let monster = Monster(CGPoint(x: CGFloat.random(in: 60...scene.size.width - 60), y: yStart), CGSize(width: 60, height: 40))
                 monster.draw(scene)

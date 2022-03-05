@@ -22,8 +22,8 @@ class Monster: GameObject {
         node.zPosition = 6.0
         node.name = "MONSTER"
         self.isDead = false
-        self.timer = Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(startMoving), userInfo: nil, repeats: true)
-        
+        self.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(startMoving), userInfo: nil, repeats: true)
+        self.startMoving()
         
     }
     
@@ -41,16 +41,44 @@ class Monster: GameObject {
         node.physicsBody?.restitution = 0.5
         node.physicsBody?.friction = 0.5
         node.physicsBody?.angularDamping = 0
-        node.physicsBody?.linearDamping = 3
+        node.physicsBody?.linearDamping = 2
         
         node.physicsBody?.contactTestBitMask = 0b00000000
         node.physicsBody?.categoryBitMask =    0b00000000
         node.physicsBody?.collisionBitMask =   0b00000000
     }
     
-    @objc func startMoving() {
+    func handleTeleports(scene : GameScene) {
         if !self.isDead {
-            print("monster \(self.id) is moving")
+            if self.node.position.x <= 0 {
+                self.node.position.x = scene.size.width
+            }
+            
+            else if self.node.position.x >= scene.size.width {
+                self.node.position.x = 0
+            }
+        }
+    }
+    
+    func update(scene : GameScene) {
+        self.handleTeleports(scene: scene)
+        
+        
+    }
+    
+    @objc func startMoving() {
+        if !self.isDead && self.node.physicsBody?.velocity.dx == 0{
+            var destination = CGPoint(x: self.node.position.x - 100 + CGFloat(Int.random(in: 0...1)) * 200.0, y : self.node.position.y)
+            
+            if destination.x <= 0  {
+                destination.x = destination.x + 200
+            }
+            
+            else if destination.x >= UIScreen.main.bounds.width {
+                destination.x = destination.x - 200
+            }
+            
+            self.node.run(SKAction.move(to: destination, duration: Double.random(in: 3...4)))
         }
         
     }
@@ -64,9 +92,15 @@ class Monster: GameObject {
     }
     
     func die() {
-        let direction = CGVector(dx: 0, dy: -80)
+        
+        self.node.removeAllActions()
+        self.node.physicsBody?.velocity.dx = 0
+        
+        
+        let direction = CGVector(dx: 0, dy: -50)
         self.node.physicsBody?.applyImpulse(direction)
         self.node.physicsBody?.affectedByGravity = true
+        self.node.texture = SKTexture(imageNamed: "dead_space_ship\(Int.random(in: 1...2))")
         self.isDead = true
     }
 }

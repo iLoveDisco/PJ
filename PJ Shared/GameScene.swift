@@ -74,6 +74,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let player = self.player {
             player.update(scene: self)
         }
+        
+        for monster in monsters {
+            monster.update(scene: self)
+        }
+        
     }
     
     func drawExtraPlatform(_ pos : CGPoint) {
