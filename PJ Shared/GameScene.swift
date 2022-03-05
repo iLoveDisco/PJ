@@ -197,6 +197,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func resetScene() {
+        for monster in self.monsters {
+            monster.timer?.invalidate()
+        }
         self.sceneLoadStrategy.setScene(scene: self)
     }
 }

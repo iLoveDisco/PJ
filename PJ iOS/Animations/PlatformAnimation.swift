@@ -20,13 +20,15 @@ class EdgePlatformAnimation : PlatformAnimation {
         self.scene = scene
     }
     
+    let FLASH_LENGTH = 22
+    
     func animateOnPlayerJump(_ platform : Platform) {
         let platforms = self.scene.edgePlatforms
         let closestPlatforms = platforms.sorted { p1, p2 in
             return platform.distanceFrom(p1) < platform.distanceFrom(p2)
         }
         
-        if platforms.count < 22 {
+        if platforms.count < FLASH_LENGTH {
             return
         }
         
@@ -35,7 +37,7 @@ class EdgePlatformAnimation : PlatformAnimation {
             self.fadeInAndOut(closestPlatforms[1])
         }
         
-        for i in stride(from: 3, to: 20, by: 2) {
+        for i in stride(from: 3, to: FLASH_LENGTH - 2, by: 2) {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.025 * Double(i)) {
                 self.fadeInAndOut(closestPlatforms[i])
                 self.fadeInAndOut(closestPlatforms[i + 1])

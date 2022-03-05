@@ -35,13 +35,12 @@ class LevelGenerator {
         
         // reduce number of edges
         let edgePointTarget = Int(0.01 * totalNumPixels)
-        print("reducing num edges to \(edgePointTarget)")
+        
         repeat {
             thresh2 = thresh2 + 100
             edgePoints = renderEdgePlatforms(thresh1, thresh2)
         } while(edgePoints.count > edgePointTarget)
-        print("done reducing. num reductions: \(thresh2 / 100 - 2.0)")
-    
+        
         for point in edgePoints {
             scene.drawEdgePlatform(point)
         }
@@ -112,28 +111,18 @@ class LevelGenerator {
     }
     
     func addMonstersToScene(_ scene : GameScene) {
-        var possibleSpotsToAddMonsters : [CGPoint] = []
-        for x_start in stride(from: 0 + LevelGenerator.X_ZONE * 2, to: scene.size.width - LevelGenerator.X_ZONE * 2.0, by: LevelGenerator.X_ZONE) {
-            for y_start in stride(from: scene.size.height / 2, to: scene.size.height * 0.8, by: LevelGenerator.Y_ZONE) {
-                if !scene.zoneHasPlatforms(xStart: x_start, yStart: y_start) {
-                    possibleSpotsToAddMonsters.append(CGPoint(x: x_start + LevelGenerator.X_ZONE / 2, y: y_start + LevelGenerator.Y_ZONE / 2))
-                }
+        for yStart in stride(from: scene.size.height / 2, through: scene.size.height - 60, by: LevelGenerator.Y_ZONE) {
+            
+            let randomNumber = Int.random(in: 1 ... Int(scene.size.height / LevelGenerator.Y_ZONE / 2))
+            
+            let luckyNumbers : [Int] = [1,2,3,4]
+            if luckyNumbers.contains(randomNumber) {
+                let monster = Monster(CGPoint(x: CGFloat.random(in: 60...scene.size.width - 60), y: yStart), CGSize(width: 60, height: 40))
+                monster.draw(scene)
+                scene.monsters.append(monster)
             }
         }
         
-        if possibleSpotsToAddMonsters.count == 0 {
-            return
-        } else {
-            let numMonstersToAdd = Int.random(in: 1...2)
-            
-            for _ in 1...numMonstersToAdd {
-                if possibleSpotsToAddMonsters.count == 0 {
-                    return;
-                }
-                let spotToAddMonster : CGPoint = possibleSpotsToAddMonsters.remove(at: Int.random(in: 0..<possibleSpotsToAddMonsters.count))
-                scene.drawMonster(spotToAddMonster)
-            }
-        }
     }
 
     func addPlayerToScene(_ scene : GameScene) {

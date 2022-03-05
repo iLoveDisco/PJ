@@ -21,7 +21,7 @@ class Player : GameObject {
     static let SPRITE_SIZE = CGSize(width: 25, height: 25 * 1.2)
     static let BODY_SIZE = SPRITE_SIZE
     static let DRIFT : Double = 35
-    static let JUMP_POWER = 17
+    static let JUMP_POWER = 16
     static let DEFAULT_POSITION = CGPoint(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.05)
     
     override init(_ pos: CGPoint, _ size: CGSize) {
@@ -141,7 +141,6 @@ class Player : GameObject {
                 if self.canJump && !self.isDead{
                     platform.flash()
                 }
-                
                 self.jump()
             }
         }
