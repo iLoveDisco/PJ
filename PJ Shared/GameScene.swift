@@ -23,8 +23,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var monsters : [Monster] = []
     
     var sceneLoadStrategy : SceneLoadingStrategy = NormalSceneLoading()
-    
-    
+    let unpauseButton = UIButton(frame: CGRect(x: 100, y: 100, width: 100, height: 50))
+  
     var count = 0
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
@@ -32,16 +32,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let touchedNode = atPoint(location)
         
             if touchedNode.name == "PAUSE_BUTTON" {
-                self.isPaused = true
-                self.loadPauseMenu()
+                self.pause()
             }
         }
     }
     
+    func pause() {
+        self.isPaused = true
+        self.loadPauseMenu()
+    }
+    
     private func loadPauseMenu() {
+        let wallpaper = self.childNode(withName: "WALLPAPER")
+        wallpaper?.zPosition = 20
+        wallpaper?.alpha = 1.0
         
-        
-        
+        self.unpauseButton.isHidden = false
     }
     
     func loadPauseButton() {
@@ -55,6 +61,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMove(to view: SKView) {
+        
+        addPauseMenuButtons(view)
+        
         self.physicsWorld.gravity = CGVector(dx:0,dy:-3)
         self.motion = CMMotionManager()
         self.motion.startDeviceMotionUpdates()
@@ -62,6 +71,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         self.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         self.resetScene()
+    }
+    
+    func addPauseMenuButtons(_ view : SKView) {
+        unpauseButton.backgroundColor = .green
+        unpauseButton.setTitle("Test Button", for: .normal)
+        unpauseButton.addTarget(self, action: #selector(unpause), for: .touchUpInside)
+        unpauseButton.isHidden = true
+        view.addSubview(unpauseButton)
+    }
+    
+    @objc func unpause() {
+        let wallpaper = self.childNode(withName: "WALLPAPER")
+        wallpaper?.zPosition = 0
+        wallpaper?.alpha = 0.3
+        self.isPaused = false
+        self.unpauseButton.isHidden = true
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -95,7 +120,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let size = CGSize(width: 40, height: 5)
         let platform = Platform(pos, size, animation: ExtraPlatformAnimation())
         
-        platform.node
+        platform.draw(self)
         platform.doLoadingAnimation(scene: self)
         self.extraPlatforms.append(platform)
     }
@@ -105,7 +130,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let size = CGSize(width: PLATFORM_PIXEL_SIZE, height: Int.random(in: 1...PLATFORM_PIXEL_SIZE))
         
         let platform = Platform(pos, size, animation: EdgePlatformAnimation(self))
+        platform.node.alpha = CGFloat.random(in: 0.7...1)
         
+        platform.draw(self)
         platform.doLoadingAnimation(scene: self)
         self.edgePlatforms.append(platform)
     }
@@ -122,25 +149,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if xStart < 0 {
             xStart = self.size.width + xStart
         }
-        
-        let xEnd = xStart + LevelGenerator.X_ZONE
-        let yEnd = yStart + LevelGenerator.Y_ZONE
-        
+      
         var platforms : [Platform] = []
         platforms.append(contentsOf: self.edgePlatforms)
         platforms.append(contentsOf: self.extraPlatforms)
         
-        for platform in platforms {
-            let node = platform.node
-            let pos = node.position
-            if xStart < pos.x && pos.x < xEnd {
-                if yStart < pos.y && pos.y < yEnd {
-                    return true
-                }
-            }
-        }
-        
-        return false
+        return lg.zoneContainsPoints(points: platforms.map({$0.node.position}), zoneLocation: CGPoint(x: xStart, y: yStart))
     }
     
     func loadImage(image : UIImage) {
@@ -148,7 +162,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func loadImage() {
-        lg.loadImageToScene(self)
+        lg.loadRandomImageToScene(self)
     }
     
     func loadGameObjects() {
@@ -204,6 +218,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func resetScene() {
         for monster in self.monsters {
             monster.timer?.invalidate()
+            monster.timer2?.invalidate()
+            player?.timer?.invalidate()
         }
         self.sceneLoadStrategy.setScene(scene: self)
     }

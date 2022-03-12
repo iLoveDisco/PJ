@@ -75,7 +75,7 @@ class ExtraPlatformAnimation : PlatformAnimation {
     }
     
     func animateOnLoad(_ platform: Platform) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + CGFloat.random(in: 1.3...1.8)) {
             platform.fadeIn(time: 0.2)
         }
     }

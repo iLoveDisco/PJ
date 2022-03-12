@@ -12,29 +12,32 @@ class LevelGenerator {
     var levelImage : UIImage?
     static let X_ZONE = 40.0
     static let Y_ZONE = 55.0
+    let imageExtractor = ImageExtractor()
     
-    func loadImageToScene(_ scene: GameScene) {
-        let imageExtractor = ImageExtractor()
+    func loadRandomImageToScene(_ scene: GameScene) {
         self.levelImage = imageExtractor.getRandomPhoto()
     }
     
     func loadImageToScene(image : UIImage) {
-        
         let imageExtractor = ImageExtractor()
         self.levelImage = imageExtractor.processPhoto(image)
     }
     
     let NUM_PIXELS_TO_SKIP = 5
+    let NUM_EDGE_POINT_TARGET_FACTOR = 0.015
     func addEdgePlatformsToScene(_ scene : GameScene) {
         let thresh1 = 100.0
         var thresh2 = 200.0
         
         var edgePoints = renderEdgePlatforms(thresh1,thresh2)
+        if areEdgesCoveringWholeScreen(edgePoints) {
+            
+        }
         
         let totalNumPixels = scene.size.width * scene.size.height
         
         // reduce number of edges
-        let edgePointTarget = Int(0.01 * totalNumPixels)
+        let edgePointTarget = Int(NUM_EDGE_POINT_TARGET_FACTOR * totalNumPixels)
         
         repeat {
             thresh2 = thresh2 + 100
@@ -44,6 +47,30 @@ class LevelGenerator {
         for point in edgePoints {
             scene.drawEdgePlatform(point)
         }
+    }
+    
+    private func areEdgesCoveringWholeScreen(_ edgePoints : [CGPoint]) -> Bool {
+        // TODO: Implement me
+        return true
+    }
+    
+    func zoneContainsPoints(points : [CGPoint], zoneLocation : CGPoint) -> Bool {
+        let xStart = zoneLocation.x
+        let yStart = zoneLocation.y
+        
+        let xEnd = xStart + LevelGenerator.X_ZONE
+        let yEnd = yStart + LevelGenerator.Y_ZONE
+        
+        let platforms : [CGPoint] = points
+        for pos in platforms {
+            if xStart < pos.x && pos.x < xEnd {
+                if yStart < pos.y && pos.y < yEnd {
+                    return true
+                }
+            }
+        }
+        
+        return false
     }
     
     func addExtraPlatformsToScene(_ scene : GameScene) {
@@ -82,6 +109,16 @@ class LevelGenerator {
             
             minimumPathZone = nextZone
             
+            
+            for xStart in stride(from: 0, to: scene.size.width, by: LevelGenerator.X_ZONE) {
+                let randomNumber = Int.random(in: 1...Int(scene.size.width / LevelGenerator.X_ZONE * 2))
+                if randomNumber == 1 {
+                    if !scene.zoneHasPlatforms(xStart: xStart, yStart: yStart) {
+                        scene.drawExtraPlatform(CGPoint(x: xStart + LevelGenerator.X_ZONE / 2, y: yStart ))
+                    }
+                }
+            }
+            
         }
     }
     
@@ -113,9 +150,9 @@ class LevelGenerator {
     func addMonstersToScene(_ scene : GameScene) {
         for yStart in stride(from: scene.size.height / 3, through: scene.size.height - 60, by: LevelGenerator.Y_ZONE) {
             
-            let randomNumber = Int.random(in: 1 ... Int(scene.size.height / LevelGenerator.Y_ZONE / 2))
+            let randomNumber = Int.random(in: 1 ... Int(scene.size.height / LevelGenerator.Y_ZONE * 2 / 3))
             
-            let luckyNumbers : [Int] = [1,2]
+            let luckyNumbers : [Int] = [1]
             if luckyNumbers.contains(randomNumber) {
                 let monster = Monster(CGPoint(x: CGFloat.random(in: 60...scene.size.width - 60), y: yStart), CGSize(width: 60, height: 40))
                 monster.draw(scene)

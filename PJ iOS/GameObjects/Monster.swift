@@ -14,17 +14,24 @@ class Monster: GameObject {
     let id = Int.random(in: 1...1000)
     
     var timer : Timer?
+    var timer2 : Timer?
+    
+    let laserNode = SKSpriteNode(imageNamed: "ship_shock\(1)")
     
     override init(_ pos : CGPoint, _ size: CGSize) {
         super.init(pos, size)
         node.position = super.pos;
         node.size = size;
         node.zPosition = 6.0
-        node.name = "MONSTER"
+        node.name = "MONSTER\(Int.random(in: 1...100))"
         self.isDead = false
         self.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(startMoving), userInfo: nil, repeats: true)
-        self.startMoving()
         
+        self.timer2 = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(runAnimation), userInfo: nil, repeats: true)
+        self.startMoving()
+        laserNode.position = CGPoint(x: 0,y: -1 * node.size.height / 3)
+        laserNode.size = CGSize(width: node.size.width * 1.1, height: node.size.height / 2)
+        self.node.addChild(laserNode)
     }
     
     deinit {
@@ -63,22 +70,31 @@ class Monster: GameObject {
     func update(scene : GameScene) {
         self.handleTeleports(scene: scene)
         
-        
+        for monster in scene.monsters {
+            if self.isDead && self.isTouching(monster.getNode()) && self.node.name != monster.getNode().name {
+                monster.die()
+            }
+        }
+    }
+    
+    @objc func runAnimation() {
+        let laserAnimation = SKAction.animate(with: [SKTexture(imageNamed: "ship_shock1"),SKTexture(imageNamed: "ship_shock2"),SKTexture(imageNamed: "ship_shock3")], timePerFrame: 0.1)
+        laserNode.run(laserAnimation)
     }
     
     @objc func startMoving() {
         if !self.isDead && self.node.physicsBody?.velocity.dx == 0{
-            var destination = CGPoint(x: self.node.position.x - 100 + CGFloat(Int.random(in: 0...1)) * 200.0, y : self.node.position.y)
+            var destination = CGPoint(x: self.node.position.x - 200 + CGFloat(Int.random(in: 0...1)) * 400.0, y : self.node.position.y)
             
             if destination.x <= 0  {
-                destination.x = destination.x + 200
+                destination.x = destination.x + 400
             }
             
             else if destination.x >= UIScreen.main.bounds.width {
-                destination.x = destination.x - 200
+                destination.x = destination.x - 400
             }
             
-            self.node.run(SKAction.move(to: destination, duration: Double.random(in: 3...4)))
+            self.node.run(SKAction.move(to: destination, duration: Double.random(in: 4...6)))
         }
         
     }
@@ -95,7 +111,7 @@ class Monster: GameObject {
         
         self.node.removeAllActions()
         self.node.physicsBody?.velocity.dx = 0
-        
+        self.node.removeAllChildren()
         
         let direction = CGVector(dx: 0, dy: -50)
         self.node.physicsBody?.applyImpulse(direction)

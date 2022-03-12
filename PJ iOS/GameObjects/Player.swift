@@ -23,6 +23,9 @@ class Player : GameObject {
     static let DRIFT : Double = 35
     static let JUMP_POWER = 16.6
     static let DEFAULT_POSITION = CGPoint(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.05)
+    let shockNode = SKSpriteNode(imageNamed: "shock1")
+    
+    var timer : Timer?
     
     override init(_ pos: CGPoint, _ size: CGSize) {
         super.init(pos, size)
@@ -35,10 +38,19 @@ class Player : GameObject {
         
         self.motion = CMMotionManager()
         self.motion.startDeviceMotionUpdates()
+        
+        self.timer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(runDeathAnimation), userInfo: nil, repeats: true)
+        
+        shockNode.size = CGSize(width: self.node.size.width * 2, height: self.node.size.height * 2)
+        shockNode.isHidden = true
+        self.node.addChild(shockNode)
+        
     }
     
     deinit {
         self.motion.stopDeviceMotionUpdates()
+        self.timer?.invalidate()
+        print("deinit player")
     }
     
     override func resetPhysics() {
@@ -69,15 +81,32 @@ class Player : GameObject {
         }
     }
     
+    func shortJump() {
+        if self.canJump{
+            let direction = CGVector(dx: 0, dy: Player.JUMP_POWER * 0.85)
+            self.node.physicsBody?.applyImpulse(direction)
+            timeSinceLastJump = CACurrentMediaTime()
+            self.disableJumping()
+        }
+    }
+    
     func die() {
         self.isDead = true
         self.node.physicsBody?.isDynamic = false
-        self.disableJumping()
+        self.shockNode.isHidden = false
+        self.node.texture = SKTexture(imageNamed: "astro_falling_left")
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.node.physicsBody?.isDynamic = true
             self.node.position.y = -50
+            self.shockNode.isHidden = true
+            self.node.physicsBody?.isDynamic = true
         }
+    }
+    
+    @objc func runDeathAnimation() {
+        let laserAnimation = SKAction.animate(with: [SKTexture(imageNamed: "shock1"),SKTexture(imageNamed: "shock2"),SKTexture(imageNamed: "shock3")], timePerFrame: 0.1)
+        
+        self.shockNode.run(laserAnimation)
     }
     
     func enableJumping() {
@@ -99,7 +128,7 @@ class Player : GameObject {
     func isBelowScreen() -> Bool {
         return self.node.position.y <= -20
     }
- 
+    
     func resetPosition() {
         self.node.position = Player.DEFAULT_POSITION
     }
@@ -112,7 +141,7 @@ class Player : GameObject {
         
         if self.isFalling(){
             
-            if (self.node.physicsBody?.velocity.dy)! < -120 {
+            if (self.node.physicsBody?.velocity.dy)! < -50 {
                 if (self.node.physicsBody?.velocity.dx)! < 0 {
                     self.node.texture = SKTexture(imageNamed: "astro_falling_left")
                 } else {
@@ -132,16 +161,22 @@ class Player : GameObject {
             self.disableJumping()
         }
         
-        var platforms : [Platform] = []
-        platforms.append(contentsOf: scene.edgePlatforms)
-        platforms.append(contentsOf: scene.extraPlatforms)
         
-        for platform in platforms {
-            if platform.isTouching(self.node) {
-                if self.canJump && !self.isDead{
-                    platform.flash()
+        for edgePlatform in scene.edgePlatforms {
+            if edgePlatform.isTouching(self.node) {
+                if self.canJump && !self.isDead {
+                    edgePlatform.doPlayerJumpAnimation()
+                    self.shortJump()
                 }
-                self.jump()
+            }
+        }
+        
+        for extraPlatform in scene.extraPlatforms {
+            if extraPlatform.isTouching(self.node) {
+                if self.canJump && !self.isDead {
+                    extraPlatform.doPlayerJumpAnimation()
+                    self.jump()
+                }
             }
         }
     }
@@ -175,6 +210,11 @@ class Player : GameObject {
     private func handleDeath(scene : GameScene) {
         if self.node.position.y <= -20 && !isRespawning {
             isRespawning = true
+            
+            for platform in scene.edgePlatforms {
+                platform.doLoadingAnimation(scene: scene)
+            }
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { // Change `2.0` to the desired number of seconds.
                 self.resetPosition()
                 self.isDead = false
@@ -184,23 +224,22 @@ class Player : GameObject {
     }
     
     private func handleMonsters(scene : GameScene) {
-        var shouldIgnore = false
         for monster in scene.monsters {
-            if self.isTouching(monster.getNode()) && !shouldIgnore {
-                if (self.getNode().physicsBody?.velocity.dy)! > 0 && !monster.isDead{
+            if self.isTouching(monster.laserNode) {
+                if !monster.isDead{
                     self.die()
-                } else {
-                    if !self.isDead {
-                        print("monster died")
-                        monster.die()
-                        self.jump()
+                    monster.getNode().removeAllActions()
+                    monster.getNode().physicsBody?.isDynamic = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { // Change `2.0` to the desired number of seconds.
+                        monster.getNode().physicsBody?.isDynamic = true
                     }
                 }
-                
-                shouldIgnore = true
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    shouldIgnore = false
+            }
+            
+            else if self.isTouching(monster.getNode()) {
+                if !self.isDead {
+                    monster.die()
+                    self.jump()
                 }
             }
         }

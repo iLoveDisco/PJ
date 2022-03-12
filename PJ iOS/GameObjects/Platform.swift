@@ -47,7 +47,7 @@ class Platform : GameObject{
         return node
     }
     
-    func flash() {
+    func doPlayerJumpAnimation() {
         if let animation = self.animation {
             animation.animateOnPlayerJump(self)
         }
@@ -55,7 +55,6 @@ class Platform : GameObject{
     
     func doLoadingAnimation(scene : GameScene) {
         self.hide()
-        self.draw(scene)
         self.fadeOut(time: 0.01) {
             self.show()
             if let animation = self.animation {
