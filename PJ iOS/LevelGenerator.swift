@@ -11,7 +11,7 @@ import SpriteKit
 class LevelGenerator {
     var levelImage : UIImage?
     static let X_ZONE = 40.0
-    static let Y_ZONE = 55.0
+    static let Y_ZONE = 45.0
     let imageExtractor = ImageExtractor()
     
     func loadRandomImageToScene(_ scene: GameScene) {
