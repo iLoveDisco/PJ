@@ -7,16 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F025379A27E5714E005573A3 /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F025379927E5714E005573A3 /* NavigationViewController.swift */; };
 		F02AB41127C9A47100BCE1FF /* SceneLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02AB41027C9A47000BCE1FF /* SceneLoading.swift */; };
 		F0353540279BD06500021DAE /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F035353F279BD06500021DAE /* GameViewController.swift */; };
 		F040BB1827B87DBF000CD6AF /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = F040BB1727B87DBF000CD6AF /* Background.swift */; };
 		F0DB959E27B348C900C8887B /* PlatformAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DB959D27B348C900C8887B /* PlatformAnimation.swift */; };
-		F0F02E7727C3267800C0C55D /* KMediods.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F02E7627C3267800C0C55D /* KMediods.swift */; };
 		F0FE2F7327D684C90085BC53 /* MyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FE2F7227D684C90085BC53 /* MyButton.swift */; };
 		F0FFB16C27855EA60014A311 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FFB16B27855EA60014A311 /* AppDelegate.swift */; };
 		F0FFB16E27855EA60014A311 /* StartMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FFB16D27855EA60014A311 /* StartMenuViewController.swift */; };
-		F0FFB17127855EA60014A311 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F0FFB16F27855EA60014A311 /* Main.storyboard */; };
-		F0FFB17427855EA60014A311 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F0FFB17227855EA60014A311 /* LaunchScreen.storyboard */; };
 		F0FFB17527855EA60014A311 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = F0FFB16027855EA50014A311 /* Actions.sks */; };
 		F0FFB17627855EA60014A311 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = F0FFB16127855EA50014A311 /* GameScene.sks */; };
 		F0FFB17727855EA60014A311 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FFB16227855EA50014A311 /* GameScene.swift */; };
@@ -39,12 +37,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		F020C9C227BF341200227E5F /* KMediods.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = KMediods.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		F025379927E5714E005573A3 /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
 		F02AB41027C9A47000BCE1FF /* SceneLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLoading.swift; sourceTree = "<group>"; };
 		F035353F279BD06500021DAE /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		F040BB1727B87DBF000CD6AF /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		F0DB959D27B348C900C8887B /* PlatformAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformAnimation.swift; sourceTree = "<group>"; };
-		F0F02E7627C3267800C0C55D /* KMediods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMediods.swift; sourceTree = "<group>"; };
 		F0FE2F7227D684C90085BC53 /* MyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyButton.swift; sourceTree = "<group>"; };
 		F0FFB16027855EA50014A311 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		F0FFB16127855EA50014A311 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -52,8 +49,6 @@
 		F0FFB16827855EA60014A311 /* PJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0FFB16B27855EA60014A311 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F0FFB16D27855EA60014A311 /* StartMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartMenuViewController.swift; sourceTree = "<group>"; };
-		F0FFB17027855EA60014A311 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		F0FFB17327855EA60014A311 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F0FFB17F27855FA10014A311 /* PJ iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PJ iOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		F0FFB18027855FA20014A311 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		F0FFB18227855FA20014A311 /* OpenCVWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
@@ -93,6 +88,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F025379627E56FA5005573A3 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				F035353F279BD06500021DAE /* GameViewController.swift */,
+				F0FFB16D27855EA60014A311 /* StartMenuViewController.swift */,
+				F025379927E5714E005573A3 /* NavigationViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		F0DB959C27B348B200C8887B /* Animations */ = {
 			isa = PBXGroup;
 			children = (
@@ -141,21 +146,16 @@
 		F0FFB16A27855EA60014A311 /* PJ iOS */ = {
 			isa = PBXGroup;
 			children = (
+				F0FFB18B2785607D0014A311 /* GameObjects */,
+				F025379627E56FA5005573A3 /* ViewControllers */,
 				F0FE2F7127D6849D0085BC53 /* UIComponents */,
 				F0DB959C27B348B200C8887B /* Animations */,
 				F0FFB18727855FFE0014A311 /* ImageProcessor.swift */,
+				F02AB41027C9A47000BCE1FF /* SceneLoading.swift */,
 				F0FFB18527855FE70014A311 /* LevelGenerator.swift */,
 				F0FFB1D8279261290014A311 /* ImageExtractor.swift */,
-				F0FFB18B2785607D0014A311 /* GameObjects */,
 				F0FFB17E27855F5B0014A311 /* OpenCV */,
 				F0FFB16B27855EA60014A311 /* AppDelegate.swift */,
-				F0FFB16D27855EA60014A311 /* StartMenuViewController.swift */,
-				F0FFB16F27855EA60014A311 /* Main.storyboard */,
-				F0FFB17227855EA60014A311 /* LaunchScreen.storyboard */,
-				F035353F279BD06500021DAE /* GameViewController.swift */,
-				F020C9C227BF341200227E5F /* KMediods.playground */,
-				F0F02E7627C3267800C0C55D /* KMediods.swift */,
-				F02AB41027C9A47000BCE1FF /* SceneLoading.swift */,
 			);
 			path = "PJ iOS";
 			sourceTree = "<group>";
@@ -257,9 +257,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F0FFB17627855EA60014A311 /* GameScene.sks in Resources */,
-				F0FFB17127855EA60014A311 /* Main.storyboard in Resources */,
 				F0FFB17527855EA60014A311 /* Actions.sks in Resources */,
-				F0FFB17427855EA60014A311 /* LaunchScreen.storyboard in Resources */,
 				F0FFB1AE278567050014A311 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -274,6 +272,7 @@
 				F0FFB1922785607D0014A311 /* Platform.swift in Sources */,
 				F0FFB18427855FA20014A311 /* OpenCVWrapper.mm in Sources */,
 				F0FFB17727855EA60014A311 /* GameScene.swift in Sources */,
+				F025379A27E5714E005573A3 /* NavigationViewController.swift in Sources */,
 				F0FFB18627855FE70014A311 /* LevelGenerator.swift in Sources */,
 				F0353540279BD06500021DAE /* GameViewController.swift in Sources */,
 				F0DB959E27B348C900C8887B /* PlatformAnimation.swift in Sources */,
@@ -285,32 +284,12 @@
 				F0FFB18827855FFE0014A311 /* ImageProcessor.swift in Sources */,
 				F0FFB16C27855EA60014A311 /* AppDelegate.swift in Sources */,
 				F0FFB1932785607D0014A311 /* Player.swift in Sources */,
-				F0F02E7727C3267800C0C55D /* KMediods.swift in Sources */,
 				F0FFB1902785607D0014A311 /* Monster.swift in Sources */,
 				F040BB1827B87DBF000CD6AF /* Background.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		F0FFB16F27855EA60014A311 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F0FFB17027855EA60014A311 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		F0FFB17227855EA60014A311 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F0FFB17327855EA60014A311 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		F0FFB17927855EA60014A311 /* Debug */ = {
@@ -365,6 +344,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -419,6 +399,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -441,9 +422,9 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the phone's camera";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to the photo library.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
@@ -482,9 +463,9 @@
 				"INFOPLIST_FILE[sdk=*]" = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the phone's camera";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to the photo library.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;

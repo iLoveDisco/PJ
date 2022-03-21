@@ -39,13 +39,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func pause() {
         self.isPaused = true
+        self.scene?.isHidden = true
         self.loadPauseMenu()
     }
     
     private func loadPauseMenu() {
-        let wallpaper = self.childNode(withName: "WALLPAPER")
-        wallpaper?.zPosition = 20
-        wallpaper?.alpha = 1.0
+        self.scene?.isHidden = true
         
         self.unpauseButton.isHidden = false
     }
@@ -61,7 +60,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMove(to view: SKView) {
-        
+        self.scene?.backgroundColor = .clear
         addPauseMenuButtons(view)
         
         self.physicsWorld.gravity = CGVector(dx:0,dy:-3)
@@ -170,7 +169,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.loadExtraPlatforms()
         self.loadMonsters()
         self.loadPauseButton()
-        self.loadWallPaper()
         // spawn player
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             self.loadPlayer()
@@ -211,7 +209,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         node.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
         node.name="WALLPAPER"
         node.size = self.size
-        node.alpha = 0.3
         self.addChild(node)
     }
     

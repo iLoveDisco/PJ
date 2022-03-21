@@ -50,7 +50,6 @@ class Player : GameObject {
     deinit {
         self.motion.stopDeviceMotionUpdates()
         self.timer?.invalidate()
-        print("deinit player")
     }
     
     override func resetPhysics() {
