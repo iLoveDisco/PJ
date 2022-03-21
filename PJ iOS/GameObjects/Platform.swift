@@ -12,7 +12,7 @@ class Platform : GameObject{
     var node = SKSpriteNode(imageNamed: "platform")
     var animation : PlatformAnimation?
     
-    init(_ pos : CGPoint, _ size: CGSize, animation : PlatformAnimation) {
+    override init(_ pos : CGPoint, _ size: CGSize) {
         super.init(pos, size)
         
         if size.width < 10 {
@@ -23,7 +23,6 @@ class Platform : GameObject{
         node.size = size
         node.zPosition = PLATFORM_Z_POS
         node.name = "PLATFORM"
-        self.animation = animation
     }
     
     override func resetPhysics() {
@@ -61,5 +60,19 @@ class Platform : GameObject{
                 animation.animateOnLoad(self)
             }
         }
+    }
+}
+
+class EdgePlatform : Platform {
+    init(_ pos: CGPoint, _ size: CGSize, scene: GameScene) {
+        super.init(pos, size)
+        super.animation = EdgePlatformAnimation(scene)
+    }
+}
+
+class ExtraPlatform : Platform {
+    override init(_ pos: CGPoint, _ size: CGSize) {
+        super.init(pos, size)
+        self.animation = ExtraPlatformAnimation()
     }
 }

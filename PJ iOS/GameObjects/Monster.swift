@@ -18,6 +18,9 @@ class Monster: GameObject {
     
     let laserNode = SKSpriteNode(imageNamed: "ship_shock\(1)")
     
+    let speed = 150.0
+    let duration = 5.0
+    
     override init(_ pos : CGPoint, _ size: CGSize) {
         super.init(pos, size)
         node.position = super.pos;
@@ -25,7 +28,7 @@ class Monster: GameObject {
         node.zPosition = 6.0
         node.name = "MONSTER\(Int.random(in: 1...100))"
         self.isDead = false
-        self.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(startMoving), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: duration, target: self, selector: #selector(startMoving), userInfo: nil, repeats: true)
         
         self.timer2 = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(runAnimation), userInfo: nil, repeats: true)
         self.startMoving()
@@ -83,18 +86,13 @@ class Monster: GameObject {
     }
     
     @objc func startMoving() {
+        
+        
         if !self.isDead && self.node.physicsBody?.velocity.dx == 0{
-            var destination = CGPoint(x: self.node.position.x - 200 + CGFloat(Int.random(in: 0...1)) * 400.0, y : self.node.position.y)
             
-            if destination.x <= 0  {
-                destination.x = destination.x + 400
-            }
-            
-            else if destination.x >= UIScreen.main.bounds.width {
-                destination.x = destination.x - 400
-            }
-            
-            self.node.run(SKAction.move(to: destination, duration: Double.random(in: 4...6)))
+            let velocity = speed * -1 + CGFloat(Int.random(in: 0...1)) * speed * 2
+
+            self.node.run(SKAction.move(by: CGVector(dx: velocity, dy: 0), duration: duration))
         }
         
     }

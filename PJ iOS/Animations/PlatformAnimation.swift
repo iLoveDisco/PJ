@@ -52,9 +52,12 @@ class EdgePlatformAnimation : PlatformAnimation {
     }
     
     private func fadeInAndOut(_ platform : Platform) {
+        platform.node.isHidden = false
         platform.fadeIn(time: 0.05) {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                platform.fadeOut(time: 0.1)
+                platform.fadeOut(time: 0.1) {
+                    platform.node.isHidden = true
+                }
             }
         }
     }

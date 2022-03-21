@@ -34,13 +34,8 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .clear
         self.startGame()
-   }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
     }
-
+    
     override var shouldAutorotate: Bool {
         return true
     }

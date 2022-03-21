@@ -11,9 +11,9 @@ import SpriteKit
 class LevelGenerator {
     var levelImage : UIImage?
     static let X_ZONE = 40.0
-    static let Y_ZONE = 45.0
+    static let Y_ZONE = 47.0
     let imageExtractor = ImageExtractor()
-    
+   
     func loadRandomImageToScene(_ scene: GameScene) {
         self.levelImage = imageExtractor.getRandomPhoto()
     }
@@ -111,14 +111,13 @@ class LevelGenerator {
             
             
             for xStart in stride(from: 0, to: scene.size.width, by: LevelGenerator.X_ZONE) {
-                let randomNumber = Int.random(in: 1...Int(scene.size.width / LevelGenerator.X_ZONE * 2))
+                let randomNumber = Int.random(in: 1...Int(scene.size.width * 2 / LevelGenerator.X_ZONE * 2))
                 if randomNumber == 1 {
                     if !scene.zoneHasPlatforms(xStart: xStart, yStart: yStart) {
                         scene.drawExtraPlatform(CGPoint(x: xStart + LevelGenerator.X_ZONE / 2, y: yStart ))
                     }
                 }
             }
-            
         }
     }
     
@@ -148,18 +147,21 @@ class LevelGenerator {
     }
     
     func addMonstersToScene(_ scene : GameScene) {
-        for yStart in stride(from: scene.size.height / 3, through: scene.size.height - 60, by: LevelGenerator.Y_ZONE) {
-            
-            let randomNumber = Int.random(in: 1 ... Int(scene.size.height / LevelGenerator.Y_ZONE * 2 / 3))
-            
-            let luckyNumbers : [Int] = [1]
-            if luckyNumbers.contains(randomNumber) {
-                let monster = Monster(CGPoint(x: CGFloat.random(in: 60...scene.size.width - 60), y: yStart), CGSize(width: 60, height: 40))
-                monster.draw(scene)
-                scene.monsters.append(monster)
-            }
+        
+        var numMonstersToAdd = Int.random(in:1...3)
+        
+        var possibleSpotsToAddMonsters : [CGPoint] = []
+        
+        for y in stride(from: scene.size.height / 3, through: scene.size.height - 60, by: LevelGenerator.Y_ZONE * 2) {
+            let x = CGFloat.random(in: 50...scene.size.width - 50)
+            possibleSpotsToAddMonsters.append(CGPoint(x: x, y: y))
         }
         
+        for _ in 1...numMonstersToAdd {
+            let randomSpotInArray = Int.random(in: 0..<possibleSpotsToAddMonsters.count)
+            let posToAddMonster = possibleSpotsToAddMonsters.remove(at: randomSpotInArray)
+            scene.drawMonster(posToAddMonster)
+        }
     }
 
     func addPlayerToScene(_ scene : GameScene) {
