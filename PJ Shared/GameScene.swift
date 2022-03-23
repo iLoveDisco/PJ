@@ -26,6 +26,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     var didPlayerPlayFirstLevel = false
     
+    var currentLevelLabel : UILabel?
+    var currentLevel = 2
+    var totalNumImages : Int?
+    
+    init(currentLevelLabel : UILabel) {
+        self.currentLevelLabel = currentLevelLabel
+        super.init(size: UIScreen.main.bounds.size)
+    }
+    
+    override init() {
+        self.currentLevelLabel = UILabel()
+        super.init(size: UIScreen.main.bounds.size)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    
     func pause() {
         self.isPaused = true
     }
@@ -39,7 +58,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         physicsWorld.contactDelegate = self
         self.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        
         self.resetScene()
+        
+        self.totalNumImages = self.lg.imageExtractor.allPhotos!.count
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -180,5 +202,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             player?.timer?.invalidate()
         }
         self.sceneLoadStrategy.setScene(scene: self)
+        
+        if let label = self.currentLevelLabel {
+            if let photoCount = self.totalNumImages {
+                label.text = "🏞 \(currentLevel) / \(photoCount)"
+                currentLevel = currentLevel + 1
+            }
+        }
     }
 }

@@ -24,8 +24,21 @@ class GameViewController: UIViewController {
         return button
     }()
     
+    var currentLevelLabel : UILabel = {
+        let label = UILabel()
+        label.text = "🏞 Level 1"
+        label.alpha = 0.8
+        label.font = label.font.withSize(30)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
+        
+        return label
+    }()
+    
     @objc func handlePause() {
-        print("pause button pressed")
+        if let scene = scene {
+            scene.pause()
+        }
     }
     
     override func loadView() {
@@ -38,10 +51,14 @@ class GameViewController: UIViewController {
         self.startGame()
         
         self.view.addSubview(self.pauseButton)
+        self.view.addSubview(self.currentLevelLabel)
         
         NSLayoutConstraint.activate([
             pauseButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            pauseButton.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
+            pauseButton.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            currentLevelLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
+            currentLevelLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 5),
+            currentLevelLabel.widthAnchor.constraint(equalToConstant: 200),
         ])
     }
     
@@ -64,10 +81,11 @@ class GameViewController: UIViewController {
     private func startGame() {
         let skView = self.view as! SKView
       
-        let scene = GameScene()
+        self.scene = GameScene(currentLevelLabel: self.currentLevelLabel)
         
         if isCameraMode {
-            scene.sceneLoadStrategy = CameraSceneLoading(self)
+            scene!.sceneLoadStrategy = CameraSceneLoading(self)
+            self.currentLevelLabel.text = ""
         }
         
         skView.presentScene(scene)
