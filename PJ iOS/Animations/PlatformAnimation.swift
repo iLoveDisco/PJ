@@ -23,38 +23,42 @@ class EdgePlatformAnimation : PlatformAnimation {
     let FLASH_LENGTH = 22
     
     func animateOnPlayerJump(_ platform : Platform) {
-        let platforms = self.scene.edgePlatforms
-        let closestPlatforms = platforms.sorted { p1, p2 in
-            return platform.distanceFrom(p1) < platform.distanceFrom(p2)
-        }
-        
-        if platforms.count < FLASH_LENGTH {
-            return
-        }
-        
-        if closestPlatforms.count > 1 {
-            self.fadeInAndOut(closestPlatforms[0])
-            self.fadeInAndOut(closestPlatforms[1])
-        }
-        
-        for i in stride(from: 3, to: FLASH_LENGTH - 2, by: 2) {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.025 * Double(i)) {
-                self.fadeInAndOut(closestPlatforms[i])
-                self.fadeInAndOut(closestPlatforms[i + 1])
+        if let image = self.scene.lg.levelImage?.cgImage {
+            let processor = ImageProcessor(img: image)
+            let pos = platform.getNode().position
+            
+            
+            let numParticles = Int.random(in: 2...8)
+            for id in 0...numParticles {
+                let color = processor.color_at(x: Int(pos.x + CGFloat.random(in: -2...2)), y: Int(scene.size.height - pos.y + CGFloat.random(in: -2...2)))
+                let node = SKSpriteNode(color: color, size: CGSize(width: CGFloat.random(in: 1...3), height: CGFloat.random(in: 1...3)))
+                node.name = "PARTICLE\(id)"
+                node.zPosition = 100
+                node.physicsBody?.isDynamic = true
+                node.position = platform.pos
+                self.scene.addChild(node)
+                
+                let direction = CGVector(dx: CGFloat.random(in: -20...20), dy: CGFloat.random(in: -50...0))
+                node.run(SKAction.move(by: direction, duration: 1)) {
+                    node.removeFromParent()
+                }
             }
         }
     }
     
     func animateOnLoad(_ platform: Platform) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + Double(Int.random(in: 1...10)) * 0.1) {
-            self.fadeInAndOut(platform)
+        DispatchQueue.main.asyncAfter(deadline: .now() + Double.random(in: 0...1)) {
+            self.fadeInAndOut(platform, withAlpha: 1.0, duration: 2.0)
         }
     }
     
-    private func fadeInAndOut(_ platform : Platform) {
+    private func fadeInAndOut(_ platform : Platform, withAlpha : CGFloat, duration : CGFloat) {
         platform.node.isHidden = false
         platform.fadeIn(time: 0.05) {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            
+            platform.node.alpha = withAlpha
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
                 platform.fadeOut(time: 0.1) {
                     platform.node.isHidden = true
                 }
@@ -78,7 +82,7 @@ class ExtraPlatformAnimation : PlatformAnimation {
     }
     
     func animateOnLoad(_ platform: Platform) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + CGFloat.random(in: 1.3...1.8)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + CGFloat.random(in: 0...1)) {
             platform.fadeIn(time: 0.2)
         }
     }

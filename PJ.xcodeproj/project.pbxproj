@@ -11,6 +11,7 @@
 		F02AB41127C9A47100BCE1FF /* SceneLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02AB41027C9A47000BCE1FF /* SceneLoading.swift */; };
 		F0353540279BD06500021DAE /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F035353F279BD06500021DAE /* GameViewController.swift */; };
 		F040BB1827B87DBF000CD6AF /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = F040BB1727B87DBF000CD6AF /* Background.swift */; };
+		F0C3B19327EBAF6800FE9B2C /* GamePauseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C3B19227EBAF6800FE9B2C /* GamePauseViewController.swift */; };
 		F0DB959E27B348C900C8887B /* PlatformAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DB959D27B348C900C8887B /* PlatformAnimation.swift */; };
 		F0FE2F7327D684C90085BC53 /* MyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FE2F7227D684C90085BC53 /* MyButton.swift */; };
 		F0FFB16C27855EA60014A311 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FFB16B27855EA60014A311 /* AppDelegate.swift */; };
@@ -41,6 +42,7 @@
 		F02AB41027C9A47000BCE1FF /* SceneLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLoading.swift; sourceTree = "<group>"; };
 		F035353F279BD06500021DAE /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		F040BB1727B87DBF000CD6AF /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
+		F0C3B19227EBAF6800FE9B2C /* GamePauseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamePauseViewController.swift; sourceTree = "<group>"; };
 		F0DB959D27B348C900C8887B /* PlatformAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformAnimation.swift; sourceTree = "<group>"; };
 		F0FE2F7227D684C90085BC53 /* MyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyButton.swift; sourceTree = "<group>"; };
 		F0FFB16027855EA50014A311 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				F035353F279BD06500021DAE /* GameViewController.swift */,
 				F0FFB16D27855EA60014A311 /* StartMenuViewController.swift */,
 				F025379927E5714E005573A3 /* NavigationViewController.swift */,
+				F0C3B19227EBAF6800FE9B2C /* GamePauseViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 				F0FFB1922785607D0014A311 /* Platform.swift in Sources */,
 				F0FFB18427855FA20014A311 /* OpenCVWrapper.mm in Sources */,
 				F0FFB17727855EA60014A311 /* GameScene.swift in Sources */,
+				F0C3B19327EBAF6800FE9B2C /* GamePauseViewController.swift in Sources */,
 				F025379A27E5714E005573A3 /* NavigationViewController.swift in Sources */,
 				F0FFB18627855FE70014A311 /* LevelGenerator.swift in Sources */,
 				F0353540279BD06500021DAE /* GameViewController.swift in Sources */,

@@ -12,13 +12,18 @@ class MyNavViewController : UINavigationController {
     
     override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
-        
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
         
         let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
         backgroundImage.image = UIImage(named: "background")
         backgroundImage.contentMode = .scaleAspectFill
         self.view.insertSubview(backgroundImage, at: 0)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.tabBarController?.navigationItem.hidesBackButton = true
+        self.navigationItem.setHidesBackButton(true, animated: false)
     }
     
     required init?(coder aDecoder: NSCoder) {

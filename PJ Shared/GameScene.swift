@@ -21,32 +21,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var edgePlatforms : [Platform] = []
     var extraPlatforms : [Platform] = []
     var monsters : [Monster] = []
+    var background : Background?
     
     var sceneLoadStrategy : SceneLoadingStrategy = NormalSceneLoading()
 
     var didPlayerPlayFirstLevel = false
     
-    var currentLevelLabel : UILabel?
+    var levelChangeHandler : (Int,Int) -> Void
     var currentLevel = 2
     var totalNumImages : Int?
     
-    init(currentLevelLabel : UILabel) {
-        self.currentLevelLabel = currentLevelLabel
+    init(levelChangeHandler : @escaping (Int,Int) -> Void) {
+        self.levelChangeHandler = levelChangeHandler
         super.init(size: UIScreen.main.bounds.size)
     }
     
     override init() {
-        self.currentLevelLabel = UILabel()
+        self.levelChangeHandler = {level,imageCount in return}
         super.init(size: UIScreen.main.bounds.size)
     }
     
     required init?(coder aDecoder: NSCoder) {
+        self.levelChangeHandler = {level,imageCount in return}
         super.init(coder: aDecoder)
     }
     
-    
     func pause() {
         self.isPaused = true
+    }
+    
+    func unpause() {
+        self.isPaused = false
     }
     
     override func didMove(to view: SKView) {
@@ -143,40 +148,60 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func loadImage() {
-        lg.loadRandomImageToScene(self)
+        lg.loadRandomImageToScene(self, levelChangeHandler : self.levelChangeHandler)
     }
     
     func loadGameObjects() {
         self.loadEdgePlatforms()
         self.loadExtraPlatforms()
         self.loadMonsters()
-        // spawn player
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.loadPlayer()
-        }
         
         // spawn background
-        var delay = 2.0
-        var fadeDelay = 0.5
+        let delay = 2.0
+        let fadeDelay = 0.5
+        
         if didPlayerPlayFirstLevel {
-            delay = 0
-            fadeDelay = 0
+            self.drawImageBackground()
+            self.didPlayerPlayFirstLevel = true
+            // spawn player
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.loadPlayer()
+            }
+            
+            
+        } else {
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                self.drawImageBackground(withFadeDelay: fadeDelay)
+                self.didPlayerPlayFirstLevel = true
+            }
+            
+            // spawn player
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay + 1.0) {
+                self.loadPlayer()
+            }
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-            self.drawImageBackground(withFadeDelay: fadeDelay)
-            self.didPlayerPlayFirstLevel = true
-        }
+        
     }
     
     func drawImageBackground(withFadeDelay : CGFloat) {
+        self.background = Background(image: self.lg.levelImage!, pos: CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2), size: self.size)
+        
+        if let background = self.background {
+            background.node.isHidden = true
+            background.draw(self)
+            background.fadeOut(time: 0) {
+                background.node.isHidden = false
+                background.fadeIn(time: withFadeDelay)
+            }
+        }
+    }
+    
+    func drawImageBackground() {
         let background = Background(image: self.lg.levelImage!, pos: CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2), size: self.size)
         
         background.draw(self)
-        background.fadeOut(time: 0) {
-            background.show()
-            background.fadeIn(time: withFadeDelay)
-        }
     }
     
     func loadEdgePlatforms() {
@@ -203,11 +228,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         self.sceneLoadStrategy.setScene(scene: self)
         
-        if let label = self.currentLevelLabel {
-            if let photoCount = self.totalNumImages {
-                label.text = "🏞 \(currentLevel) / \(photoCount)"
-                currentLevel = currentLevel + 1
-            }
-        }
+        
     }
 }

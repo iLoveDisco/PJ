@@ -22,7 +22,7 @@ class Player : GameObject {
     static let BODY_SIZE = SPRITE_SIZE
     static let DRIFT : Double = 35
     static let JUMP_POWER = 16.6
-    static let DEFAULT_POSITION = CGPoint(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.05)
+    static let DEFAULT_POSITION = CGPoint(x: UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * 0.02)
     let shockNode = SKSpriteNode(imageNamed: "shock1")
     
     var timer : Timer?

@@ -67,9 +67,14 @@ class ImageProcessor {
     
     func color_at(x: Int, y: Int)->UIColor {
         
-        assert(0<=x && x<width)
-        assert(0<=y && y<height)
+        if x < 0 || x >= width {
+            return UIColor.black
+        }
         
+        if y < 0 || y >= height {
+            return UIColor.black
+        }
+
         let data = context!.data
     
         let offset = 4 * (y * width + x)

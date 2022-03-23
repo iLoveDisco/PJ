@@ -26,18 +26,34 @@ class GameViewController: UIViewController {
     
     var currentLevelLabel : UILabel = {
         let label = UILabel()
-        label.text = "🏞 Level 1"
+        label.text = ""
         label.alpha = 0.8
         label.font = label.font.withSize(30)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         
+        let strokeTextAttributes = [
+          NSAttributedString.Key.strokeColor : UIColor.red,
+          NSAttributedString.Key.foregroundColor : UIColor.white,
+          NSAttributedString.Key.strokeWidth : -4.0,
+          NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 30)]
+          as [NSAttributedString.Key : Any]
+
+        label.attributedText = NSMutableAttributedString(string: "", attributes: strokeTextAttributes)
         return label
     }()
     
     @objc func handlePause() {
         if let scene = scene {
-            scene.pause()
+            if let nav = self.navigationController {
+                scene.pause()
+                
+                let gamePauseVC = GamePauseViewController()
+                gamePauseVC.scene = scene
+                
+                nav.pushViewController(gamePauseVC, animated: false)
+                nav.navigationItem.setHidesBackButton(true, animated: true)
+            }
         }
     }
     
@@ -81,7 +97,19 @@ class GameViewController: UIViewController {
     private func startGame() {
         let skView = self.view as! SKView
       
-        self.scene = GameScene(currentLevelLabel: self.currentLevelLabel)
+        self.scene = GameScene(levelChangeHandler: { currentLevel, totalNumLevels in
+            
+            let photoEmojis : [String] = ["🎆","🎇","🌠","🌅","🌆","🌁","🌃","🌄","🌉","🌌","🏙","🌇","🖼"]
+            
+            let strokeTextAttributes = [
+              NSAttributedString.Key.strokeColor : UIColor.black,
+              NSAttributedString.Key.foregroundColor : UIColor.white,
+              NSAttributedString.Key.strokeWidth : -2.0,
+              NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 30)]
+              as [NSAttributedString.Key : Any]
+
+            self.currentLevelLabel.attributedText = NSMutableAttributedString(string: "\(photoEmojis[Int.random(in: 0..<photoEmojis.count)]) \(currentLevel) / \(totalNumLevels)", attributes: strokeTextAttributes)
+        })
         
         if isCameraMode {
             scene!.sceneLoadStrategy = CameraSceneLoading(self)

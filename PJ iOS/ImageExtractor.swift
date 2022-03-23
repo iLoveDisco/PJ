@@ -13,9 +13,11 @@ class ImageExtractor {
     
     static var WHERE_WE_LEFT_OFF = 1
     static var idx = 0
+    var photoCount : Int?
     
     init() {
         self.loadAllPhotoRefs()
+        self.photoCount = allPhotos?.count
     }
     
     func loadAllPhotoRefs() {

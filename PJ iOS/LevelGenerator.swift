@@ -11,27 +11,28 @@ import SpriteKit
 class LevelGenerator {
     var levelImage : UIImage?
     static let X_ZONE = 40.0
-    static let Y_ZONE = 45.0
+    static let Y_ZONE = 42.0
     let imageExtractor = ImageExtractor()
-   
-    func loadRandomImageToScene(_ scene: GameScene) {
+    var currentLevel = 1
+    func loadRandomImageToScene(_ scene: GameScene, levelChangeHandler : (Int, Int) -> Void) {
         self.levelImage = imageExtractor.getRandomPhoto()
+        levelChangeHandler(self.currentLevel, self.imageExtractor.photoCount!)
+        self.currentLevel = self.currentLevel + 1
     }
     
     func loadImageToScene(image : UIImage) {
-        let imageExtractor = ImageExtractor()
         self.levelImage = imageExtractor.processPhoto(image)
     }
     
-    let NUM_PIXELS_TO_SKIP = 5
+    let NUM_PIXELS_TO_SKIP = 4
     let NUM_EDGE_POINT_TARGET_FACTOR = 0.015
     func addEdgePlatformsToScene(_ scene : GameScene) {
         let thresh1 = 100.0
         var thresh2 = 200.0
         
         var edgePoints = renderEdgePlatforms(thresh1,thresh2)
-        if areEdgesCoveringWholeScreen(edgePoints) {
-            
+        if areEdgesCoveringWholeScreen(scene, edgePoints) {
+            return
         }
         
         let totalNumPixels = scene.size.width * scene.size.height
@@ -49,9 +50,20 @@ class LevelGenerator {
         }
     }
     
-    private func areEdgesCoveringWholeScreen(_ edgePoints : [CGPoint]) -> Bool {
-        // TODO: Implement me
-        return true
+    private func areEdgesCoveringWholeScreen(_ scene : GameScene, _ edgePoints : [CGPoint]) -> Bool {
+        var numZones : Double = 0
+        var numZonesWithPlatforms : Double = 0
+        
+        for xStart in stride(from: 0, through: scene.size.width, by: LevelGenerator.X_ZONE) {
+            for yStart in stride(from: 0, through: scene.size.height, by: LevelGenerator.Y_ZONE) {
+                if zoneContainsPoints(points: edgePoints, zoneLocation: CGPoint(x: xStart, y: yStart)) {
+                    numZonesWithPlatforms = numZonesWithPlatforms + 1
+                }
+                numZones = numZones + 1
+            }
+        }
+        
+        return numZonesWithPlatforms / numZones > 0.9
     }
     
     func zoneContainsPoints(points : [CGPoint], zoneLocation : CGPoint) -> Bool {

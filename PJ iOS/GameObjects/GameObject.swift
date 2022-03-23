@@ -59,6 +59,7 @@ class GameObject {
     }
     
     func fadeIn(time : Double,  _ onComplete : @escaping ()->Void) {
+        
         self.getNode().run(SKAction.fadeIn(withDuration: time)) {
             onComplete()
         }

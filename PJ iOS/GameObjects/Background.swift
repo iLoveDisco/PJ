@@ -30,8 +30,6 @@ class Background : GameObject {
         background.physicsBody?.collisionBitMask = 0b0010
         background.physicsBody?.isDynamic = false
         background.physicsBody?.affectedByGravity = false
-        
-        background.isHidden = true
     }
     
     override func getNode() -> SKSpriteNode {
