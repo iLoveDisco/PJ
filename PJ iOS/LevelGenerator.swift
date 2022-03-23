@@ -11,7 +11,7 @@ import SpriteKit
 class LevelGenerator {
     var levelImage : UIImage?
     static let X_ZONE = 40.0
-    static let Y_ZONE = 47.0
+    static let Y_ZONE = 45.0
     let imageExtractor = ImageExtractor()
    
     func loadRandomImageToScene(_ scene: GameScene) {
@@ -100,7 +100,8 @@ class LevelGenerator {
             
             var nextZone = 0.0
             if zonesWithPlatforms.count == 0 {
-                nextZone = minimumPathZone - X_ZONE + CGFloat(Int.random(in: 0...2)) * X_ZONE
+ 
+                nextZone = minimumPathZone - CGFloat(Int.random(in: -2...2)) * X_ZONE
                 
                 scene.drawExtraPlatform(CGPoint(x: nextZone + 20.0, y: yStart + Y_ZONE / 2))
             } else {

@@ -9,22 +9,24 @@ import UIKit
 import SpriteKit
 import GameplayKit
 
-extension UIButton {
-    func setBackgroundColor(color: UIColor, forState: UIControl.State) {
-        self.clipsToBounds = true  // add this to maintain corner radius
-        UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))
-        if let context = UIGraphicsGetCurrentContext() {
-            context.setFillColor(color.cgColor)
-            context.fill(CGRect(x: 0, y: 0, width: 1, height: 1))
-            let colorImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            self.setBackgroundImage(colorImage, for: forState)
-        }
-    }
-}
-
 class GameViewController: UIViewController {
     var isCameraMode = false
+    var scene : GameScene?
+    
+    var pauseButton : MyButton = {
+        let button = MyButton(frame: CGRect())
+        button.setTitle("⏸", for: .normal)
+        button.titleLabel?.font = button.titleLabel!.font.withSize(30)
+        button.layer.borderWidth = 0
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(handlePause), for: .touchUpInside)
+        button.alpha = 0.9
+        return button
+    }()
+    
+    @objc func handlePause() {
+        print("pause button pressed")
+    }
     
     override func loadView() {
         self.view = SKView()
@@ -34,6 +36,13 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .clear
         self.startGame()
+        
+        self.view.addSubview(self.pauseButton)
+        
+        NSLayoutConstraint.activate([
+            pauseButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            pauseButton.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
+        ])
     }
     
     override var shouldAutorotate: Bool {
