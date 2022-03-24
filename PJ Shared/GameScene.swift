@@ -167,10 +167,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.loadPlayer()
             }
-            
-            
         } else {
-            
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
                 self.drawImageBackground(withFadeDelay: fadeDelay)
                 self.didPlayerPlayFirstLevel = true
@@ -181,8 +178,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.loadPlayer()
             }
         }
-        
-        
     }
     
     func drawImageBackground(withFadeDelay : CGFloat) {
@@ -193,7 +188,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             background.draw(self)
             background.fadeOut(time: 0) {
                 background.node.isHidden = false
-                background.fadeIn(time: withFadeDelay)
+                if background.isBadBackground {
+                    background.node.alpha = 0.7
+                } else {
+                    background.fadeIn(time: withFadeDelay)
+                }
+                
+                
             }
         }
     }

@@ -25,26 +25,26 @@ class LevelGenerator {
     }
     
     let NUM_PIXELS_TO_SKIP = 4
-    let NUM_EDGE_POINT_TARGET_FACTOR = 0.015
+    let NUM_EDGE_POINT_TARGET_FACTOR = 0.011
     func addEdgePlatformsToScene(_ scene : GameScene) {
-        let thresh1 = 100.0
-        var thresh2 = 200.0
+        var thresh1 = 100.0
+        var thresh2 = 250.0
         
         var edgePoints = renderEdgePlatforms(thresh1,thresh2)
-        if areEdgesCoveringWholeScreen(scene, edgePoints) {
-            return
-        }
         
         let totalNumPixels = scene.size.width * scene.size.height
         
         // reduce number of edges
         let edgePointTarget = Int(NUM_EDGE_POINT_TARGET_FACTOR * totalNumPixels)
-        
+        var numReductions = 0
         repeat {
-            thresh2 = thresh2 + 100
+            numReductions = numReductions + 1
+            thresh1 = thresh1 * 1.25
+            thresh2 = thresh2 * 1.25
             edgePoints = renderEdgePlatforms(thresh1, thresh2)
         } while(edgePoints.count > edgePointTarget)
         
+        print("addEdgePlatforms: number of reductions \(numReductions)")
         for point in edgePoints {
             scene.drawEdgePlatform(point)
         }
@@ -63,7 +63,7 @@ class LevelGenerator {
             }
         }
         
-        return numZonesWithPlatforms / numZones > 0.9
+        return numZonesWithPlatforms / numZones > 0.95
     }
     
     func zoneContainsPoints(points : [CGPoint], zoneLocation : CGPoint) -> Bool {

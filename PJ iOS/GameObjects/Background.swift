@@ -10,6 +10,8 @@ import SpriteKit
 
 class Background : GameObject {
     
+    var isBadBackground : Bool = false
+    
     var node : SKSpriteNode
     
     init(image : UIImage, pos : CGPoint, size : CGSize) {

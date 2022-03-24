@@ -13,6 +13,10 @@ class GameViewController: UIViewController {
     var isCameraMode = false
     var scene : GameScene?
     
+    deinit {
+        print("DEINIT: GameVC")
+    }
+    
     var pauseButton : MyButton = {
         let button = MyButton(frame: CGRect())
         button.setTitle("⏸", for: .normal)

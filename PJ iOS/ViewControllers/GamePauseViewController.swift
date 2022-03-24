@@ -12,6 +12,10 @@ class GamePauseViewController : UIViewController {
     
     var scene : GameScene?
     
+    deinit {
+        print("DEINIT: PauseMenuVC")
+    }
+    
     let pauseLabel : UILabel = {
         let label = UILabel()
         label.text = "Game Paused"
