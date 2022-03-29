@@ -68,16 +68,17 @@ class StartMenuViewController: UIViewController {
             startScreenArt.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             startScreenArt.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             startScreenArt.heightAnchor.constraint(equalTo: view.heightAnchor, constant: artMultiplier),
-            titleCard.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            titleCard.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 10),
+            titleCard.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
+            titleCard.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             titleCard.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height * 0.1),
-            titleCard.heightAnchor.constraint(equalToConstant: view.bounds.height * 0.15)
+            titleCard.heightAnchor.constraint(equalToConstant: view.bounds.height * 0.13)
         ])
         
         self.handleStatus(PHPhotoLibrary.authorizationStatus())
     }
     
     @objc func handleOpenAlbumMode() {
+        self.navigationController?.modalTransitionStyle = .crossDissolve
         self.navigationController?.setViewControllers([GameViewController()], animated: false)
     }
 

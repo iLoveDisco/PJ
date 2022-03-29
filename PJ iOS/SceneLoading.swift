@@ -57,7 +57,7 @@ class MyImagePickerController : UIImagePickerController {
 class CameraSceneLoading : SceneLoadingStrategy {
     
     var viewController : UIViewController
-    var cameraVC : CameraViewController
+    weak var cameraVC : CameraViewController?
     
     init(_ view : UIViewController) {
         self.viewController = view
@@ -67,12 +67,12 @@ class CameraSceneLoading : SceneLoadingStrategy {
     private func openCamera(_ scene : GameScene, _ photoUse : @escaping (UIImage) -> Void) {
         
         
-        cameraVC.onImageSelection = photoUse
+        cameraVC!.onImageSelection = photoUse
         
         let picker = MyImagePickerController()
         picker.scene = scene
         picker.sourceType = UIImagePickerController.SourceType.camera
-        picker.delegate = self.cameraVC
+        picker.delegate = CameraViewController()
         
         self.viewController.present(picker, animated: true) {
             

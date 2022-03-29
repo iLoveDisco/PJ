@@ -101,7 +101,7 @@ class GameViewController: UIViewController {
     private func startGame() {
         let skView = self.view as! SKView
       
-        self.scene = GameScene(levelChangeHandler: { currentLevel, totalNumLevels in
+        self.scene = GameScene(levelChangeHandler: { [weak self] currentLevel, totalNumLevels in
             
             let photoEmojis : [String] = ["🎆","🎇","🌠","🌅","🌆","🌁","🌃","🌄","🌉","🌌","🏙","🌇","🖼"]
             
@@ -112,10 +112,13 @@ class GameViewController: UIViewController {
               NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 30)]
               as [NSAttributedString.Key : Any]
 
-            self.currentLevelLabel.attributedText = NSMutableAttributedString(string: "\(photoEmojis[Int.random(in: 0..<photoEmojis.count)]) \(currentLevel) / \(totalNumLevels)", attributes: strokeTextAttributes)
+            if let gameVC = self {
+                gameVC.currentLevelLabel.attributedText = NSMutableAttributedString(string: "\(photoEmojis[Int.random(in: 0..<photoEmojis.count)]) \(currentLevel) / \(totalNumLevels)", attributes: strokeTextAttributes)
+            }
         })
         
         if isCameraMode {
+            self.scene = GameScene()
             scene!.sceneLoadStrategy = CameraSceneLoading(self)
             self.currentLevelLabel.text = ""
         }
