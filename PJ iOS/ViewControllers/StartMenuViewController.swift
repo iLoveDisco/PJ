@@ -14,7 +14,7 @@ class StartMenuViewController: UIViewController {
 
     let openAlbumModeButton: UIButton = {
         let button = MyButton(frame: CGRect())
-        button.setTitle("Album Mode", for: .normal)
+        button.setTitle("Start Game", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(handleOpenAlbumMode), for: .touchUpInside)
         return button
@@ -128,6 +128,7 @@ class StartMenuViewController: UIViewController {
             switch action.style{
                 case .default:
                 self.openAlbumModeButton.isEnabled = false
+                self.openAlbumModeButton.alpha = 0.5
                 
                 case .cancel:
                 print("cancel")

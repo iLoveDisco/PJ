@@ -51,6 +51,11 @@ class ImageExtractor {
     func getRandomPhoto() -> UIImage?{
         var output: UIImage?
         if let allPhotos = self.allPhotos {
+            
+            if allPhotos.count == 0 {
+                return UIImage(named: "game_win")
+            }
+            
             let randomIdx = Int.random(in: 0...allPhotos.count - 1)
             let asset = self.allPhotos!.remove(at: randomIdx)
             print("Using image: \(allPhotos.count - ImageExtractor.idx) of \(allPhotos.count). Photo date: \(asset.creationDate!) (width,height) : (\(asset.pixelWidth),\(asset.pixelHeight))")
