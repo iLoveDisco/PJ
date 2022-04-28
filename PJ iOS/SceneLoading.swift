@@ -43,7 +43,7 @@ class MyImagePickerController : UIImagePickerController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        let delegate = self.delegate as! CameraViewController
+        let delegate = super.delegate as! CameraViewController
         
         if !delegate.didCameraTakeImage {
             scene!.loadImage()
@@ -56,12 +56,16 @@ class MyImagePickerController : UIImagePickerController {
 
 class CameraSceneLoading : SceneLoadingStrategy {
     
-    var viewController : UIViewController
-    weak var cameraVC : CameraViewController?
+    weak var viewController : UIViewController?
+    var cameraVC : CameraViewController?
     
     init(_ view : UIViewController) {
         self.viewController = view
         self.cameraVC = CameraViewController()
+    }
+    
+    deinit {
+        print("DEINIT: Camera Scene Loading")
     }
     
     private func openCamera(_ scene : GameScene, _ photoUse : @escaping (UIImage) -> Void) {
@@ -72,16 +76,16 @@ class CameraSceneLoading : SceneLoadingStrategy {
         let picker = MyImagePickerController()
         picker.scene = scene
         picker.sourceType = UIImagePickerController.SourceType.camera
-        picker.delegate = CameraViewController()
+        picker.delegate = self.cameraVC
         
-        self.viewController.present(picker, animated: true) {
+        self.viewController?.present(picker, animated: true) {
             
         }
     }
     
     func setScene(scene: GameScene) {
         scene.removeAllChildren()
-        
+        scene.didPlayerPlayFirstLevel = true
         scene.edgePlatforms = []
         scene.extraPlatforms = []
         scene.monsters = []

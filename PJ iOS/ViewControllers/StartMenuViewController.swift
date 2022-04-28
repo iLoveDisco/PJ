@@ -24,6 +24,7 @@ class StartMenuViewController: UIViewController {
         let button = MyButton(frame: CGRect())
         button.setTitle("Camera Mode", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(handleOpenCameraMode), for: .touchUpInside)
         return button
     }()
     
@@ -49,6 +50,7 @@ class StartMenuViewController: UIViewController {
         super.viewDidLoad()
         
         view.addSubview(openAlbumModeButton)
+        view.addSubview(openCameraModeButton)
         view.addSubview(titleCard)
         view.addSubview(startScreenArt)
         
@@ -64,6 +66,10 @@ class StartMenuViewController: UIViewController {
             openAlbumModeButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: view.bounds.width / 2.0 - buttonWidth / 2.0),
             openAlbumModeButton.widthAnchor.constraint(equalToConstant: buttonWidth),
             openAlbumModeButton.heightAnchor.constraint(equalToConstant: buttonHeight),
+            openCameraModeButton.topAnchor.constraint(equalTo: openAlbumModeButton.bottomAnchor, constant: 10),
+            openCameraModeButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: view.bounds.width / 2.0 - buttonWidth / 2.0),
+            openCameraModeButton.widthAnchor.constraint(equalToConstant: buttonWidth),
+            openCameraModeButton.heightAnchor.constraint(equalToConstant: buttonHeight),
             startScreenArt.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
             startScreenArt.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             startScreenArt.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -80,6 +86,12 @@ class StartMenuViewController: UIViewController {
     @objc func handleOpenAlbumMode() {
         self.navigationController?.modalTransitionStyle = .crossDissolve
         self.navigationController?.setViewControllers([GameViewController()], animated: false)
+    }
+    
+    @objc func handleOpenCameraMode() {
+        let gameVC = GameViewController()
+        gameVC.isCameraMode = true
+        self.navigationController?.setViewControllers([gameVC], animated: false)
     }
 
     override var shouldAutorotate: Bool {
